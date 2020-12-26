@@ -1,5 +1,4 @@
-@extends('layouts.index')
-
+@extends('layouts.header')
 @section('content')
     <!-- Breadcrumbs -->
     <div class="breadcrumbs">
@@ -7,8 +6,8 @@
         <div class="row">
           <div class="col-xs-12">
             <ul class="breadcrumb">
-              <li><a href="/">Home</a></li>
-              <li><a href="#">Login / Register</a></li>
+              <li><a href="/">Home / </a></li>
+              <li><a href="#"> Login / Register</a></li>
             </ul>
           </div>
         </div>
@@ -45,7 +44,7 @@
                                     <div class="form-group mb-3">
                                         <input type="password" name="logPass" placeholder="Enter Password" class="form-control">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-medium btn-circle">Submit Form</button>
                                 </form>
                             </div><!--/login form-->
                         </div>
@@ -73,7 +72,7 @@
                                     <div class="form-group">
                                         <input type="password" name="inputPass" id="inputPass" placeholder="Password" class="form-control" required>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Signup</button>
+                                    <button type="submit" class="btn btn-medium btn-circle">Signup Now</button>
                                 </form>
                             </div><!--/sign up form-->
                         </div>

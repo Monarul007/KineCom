@@ -29,9 +29,11 @@
         <link rel="stylesheet" href="{{ asset('css/plugins.css') }}">
         <!-- Main Style CSS -->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
         <!-- jQuery JS -->
         <script src="{{ asset('js/vendor/jquery-1.12.4.min.js') }}"></script>
         <!-- Modernizer JS -->
+        <script type="text/javascript" src="{{ asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
         <script src="{{ asset('js/vendor/modernizr-2.8.3.min.js') }}"></script>
     </head>
 <body>
