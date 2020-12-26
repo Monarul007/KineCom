@@ -1,19 +1,23 @@
 @extends('layouts.header')
 @section('content')
-    <!-- Breadcrumbs -->
-    <div class="breadcrumbs">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <ul class="breadcrumb">
-              <li><a href="/">Home</a></li>
-              <li><a href="#">Order Details</a></li>
-            </ul>
-          </div>
+    <!-- Page Banner Section Start -->
+    <div class="page-banner-section mb-50 section">
+        <div class="page-banner-wrap row row-0 d-flex align-items-center">
+            <!-- Page Banner -->
+            <div class="col-lg-12 col-12 order-lg-2 d-flex align-items-center justify-content-center">
+                <div class="page-banner">
+                    <h1>Order Details</h1>
+                    <div class="breadcrumb">
+                        <ul>
+                            <li><a href="/">HOME</a></li>
+                            <li><a href="/myaccount">HOME</a></li>
+                            <li><a href="">Order Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- Breadcrumbs End -->
+    </div><!-- Page Banner Section End -->
     <!-- Hero Section End -->
     <section class="category-section">
 		<div class="container">

@@ -3363,7 +3363,10 @@ img.mfp-img {
       margin-right: 10px; }
       @media only screen and (max-width: 479px) {
         .header-links a img {
-          margin-right: 5px; } }
+          margin-right: 5px; } 
+        .header-compare{
+          display: none !important;
+        }}
     .header-links a span {
       font-size: 14px;
       font-weight: 600;
