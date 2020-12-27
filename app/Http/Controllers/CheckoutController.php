@@ -192,6 +192,13 @@ class CheckoutController extends Controller
                         }
                     }
                 }
+                if($request->ajax()){
+                    $abc = DB::table('cart')->where('session_id',$session_id)->get();
+                    foreach ($abc as $a) {
+                        $aid = $a->id;
+                        DB::table('cart')->where('id',$aid)->delete();
+                    }
+                }
 
 
         ///////////////////Send Email TO Customer//////////////
