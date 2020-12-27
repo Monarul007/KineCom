@@ -37,6 +37,7 @@
                     @php( $description = $cat->description )
                     @php( $parent = $cat->parent_id )
                     @php( $status = $cat->status )
+                    @php( $type = $cat->featured )
                     @php( $url = $cat->url )
                     @php( $image = $cat->image )
                                         
@@ -80,6 +81,20 @@
                                     <input type="file" name="inputImage" class="custom-file-input" id="inputImage">
                                     <label class="custom-file-label" for="inputImage">Choose file</label>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputType">Category Type <span class="small">(If fetaured category block will be diplayed on homepage)</span></label>
+                                <select id="inputType" name="cat_type" class="form-control custom-select">
+                                    <option selected value="{{$type}}"><?php 
+                                    if($type == 0){
+                                        echo 'Normal Category';
+                                    }elseif($status == 1){
+                                        echo 'Featured Category';
+                                    }
+                                    ?></option>
+                                    <option value="1">Featured Category</option>
+                                    <option value="0">Normal Category</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="inputStatus">Status</label>

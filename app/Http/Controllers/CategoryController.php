@@ -17,12 +17,17 @@ class CategoryController extends Controller
                 $x = Date('ms')."-".rand(1000,10000);
                 $slug = $slug.$x;
             }
+            $type = $request->cat_type;
+            if($type == ''){
+                $type = 0;
+            }
             $data = $request->all();
             $category = new Category;
             $category->parent_id = $data['parent_cat'];
             $category->name = $data['cat_name'];
             $category->description = $data['cat_desc'];
             $category->url = $slug;
+            $category->featured = $type;
             $category->status = $data['cat_status'];
 
             if($request->hasFile('inputImage')){
@@ -64,8 +69,11 @@ class CategoryController extends Controller
 
         if($req->isMethod('post')){
             $data = $req->all();
-            Category::where(['id'=>$id])->update(['name'=>$data['cat_name'],'description'=>$data['cat_desc'],'parent_id'=>$data['parent_cat'],'status'=>$data['cat_status'],'url'=>$data['cat_url'],]);
-
+            $slug = Str::slug($req->cat_url);
+            if($slug == ''){
+                $slug = Str::slug($req->cat_name);
+            }
+            Category::where(['id'=>$id])->update(['name'=>$data['cat_name'],'description'=>$data['cat_desc'],'parent_id'=>$data['parent_cat'],'featured'=>$data['cat_type'],'status'=>$data['cat_status'],'url'=>$slug,]);
             $Ucat = Category::find($id);
             // dd($Ucat);
             if($req->hasFile('inputImage')){

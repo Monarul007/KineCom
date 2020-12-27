@@ -20,11 +20,10 @@
                                 <div class="product-showing">
                                     <p>Showing</p>
                                     <select name="showing" class="nice-select">
-                                        <option value="1">8</option>
                                         <option value="2">12</option>
-                                        <option value="3">16</option>
-                                        <option value="4">20</option>
-                                        <option value="5">24</option>
+                                        <option value="3">25</option>
+                                        <option value="4">50</option>
+                                        <option value="5">100</option>
                                     </select>
                                 </div>
 
@@ -43,9 +42,8 @@
 
                                 <!-- Product Pages -->
                                 <div class="product-pages">
-                                    <p>Pages 1 of 25</p>
+                                    <p>Pages {{$products->currentPage()}} of {{$products->lastPage()}}</p>
                                 </div>
-
                             </div><!-- Shop Top Bar End -->
                             
                         </div>
@@ -55,7 +53,7 @@
                     <div class="shop-product-wrap grid with-sidebar row">
                         @if($products->count() > 0)
                         @foreach($products as $product)
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 pb-30 pt-10">
+                            <div class="col-xl-3 col-md-3 col-6 pb-30 pt-10">
                                 <!-- Product Start -->
                                 <div class="ee-product">
                                     <!-- Image -->
@@ -82,9 +80,9 @@
                                         <div class="price-ratting">
                                             <h5 class="price">
                                                 @if($product->after_pprice)
-                                                BDT-{{$product->after_pprice}}
+                                                BDT {{$product->after_pprice}}
                                                 @else
-                                                BDT-{{$product->before_price}}
+                                                BDT {{$product->before_price}}
                                                 @endif
                                             </h5>
                                             <div class="ratting">
@@ -97,6 +95,63 @@
                                         </div>
                                     </div>
                                 </div><!-- Product End -->
+                                <!-- Product List Start -->
+                                <div class="ee-product-list">
+                                    <!-- Image -->
+                                    <div class="image">
+                                        @if($product->product_img == NULL)
+                                            <a href="/products/{{$product->id}}" class="img"><img src="/images/product/product-two-1.png" alt="Product Image"></a>
+                                        @else
+                                            <a href="/products/{{$product->id}}" class="img"><img src="/images/products/{{$product->product_img}}" alt="Product Image"></a>
+                                        @endif
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="content">
+                                        <!-- Category & Title -->
+                                        <div class="head-content">
+                                            <div class="category-title mb-20">
+                                                <a href="#" class="cat">{{$product->catname}}</a>
+                                                <h5 class="title"><a href="/products/{{$product->id}}">{{$product->name}}</a></h5>
+                                            </div>
+                                            <h5 class="price">@if($product->after_pprice)
+                                                BDT {{$product->after_pprice}}
+                                                @else
+                                                BDT {{$product->before_price}}
+                                                @endif</h5>
+                                        </div>
+                                        
+                                        <div class="left-content">
+                                            <div class="ratting">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-half-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <div class="desc">
+                                                <p>{{strip_tags($product->product_desc)}}</p>
+                                            </div>
+                                            <div class="actions">
+                                                <a href="/products/{{$product->id}}" data-id="{{$product->id}}" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                <div class="wishlist-compare">
+                                                    <a href="#" data-tooltip="Compare"><i class="ti-control-shuffle"></i></a>
+                                                    <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="right-content">
+                                            <div class="specification">
+                                                <h5>Specifications</h5>
+                                                <ul>
+                                                    {{strip_tags($product->product_specs)}}
+                                                </ul>
+                                            </div>
+                                            <span class="availability">Availability: @if($product->stock > 0)<span>In Stock</span> @else <span class="text-danger">Out of stock</span> @endif</span>
+                                        </div>
+                                    </div>
+                                </div><!-- Product List End -->
                             </div>
                         @endforeach
                     @else

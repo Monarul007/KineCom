@@ -235,7 +235,7 @@ $('.product-slider-4-full').slick({
             breakpoint: 767,
             settings: {
                 autoplay: true,
-                slidesToShow: 1,
+                slidesToShow: 2,
                 arrows: false,
                 margin: 10,
             }

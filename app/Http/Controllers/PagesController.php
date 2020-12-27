@@ -26,7 +26,7 @@ class PagesController extends Controller
     public function index(){
 
         $products = DB::table('products')
-                        ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.after_pprice','categories.name as catname','categories.description as catdesc')
+                        ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.product_desc','products.product_specs','products.after_pprice','products.stock','categories.name as catname','categories.description as catdesc','categories.url')
                         ->join('categories', 'products.cat_id', '=', 'categories.id')
                         ->orderBy('id','DESC')
                         ->paginate(12);
@@ -143,35 +143,90 @@ class PagesController extends Controller
         return back();
     }
     
-    // public function search(Request $request){
-    //     if($request->isMethod('post')){
-    //         $data = $request->all();
+    /////////////Search Products ////////////////
+    
+    public function get_products_simple(Request $request){
+        
+        $key = $request['s_text'];
+        
+        $src = substr (Request::root(), 7);
+        $products = Products::select('id', 'image', 'name', 'slug', 'price', 'quantity')->where('status', 1)->where('name', 'like', '%'.$key.'%')->limit(9)->get(); ?>
+        <ul class='product-list sugg-list'>
+        <?php $i = 1;
+        foreach($products as $prod){
+            $pid = $prod['id'];
+            $pname = $prod['name'];
+            $slug = $prod['slug'];
+            $image = $prod['image'];
+            $src = "/images/products/".$image; ?>
+            <li onclick = "selectProduct('<?php echo $pid; ?>', '<?php echo $pname; ?>', '<?php echo $slug; ?>')" tabindex = '<?php echo $i; ?>'  data-pid = '<?php echo $pid; ?>' data-pname = '<?php echo $pname;?>' data-slug = '<?php echo $slug; ?>'  style='font-size:13px; padding:5px; text-align: left;'><img src='<?php echo $src; ?>' style='width: 50px; height: 50px;'> &nbsp; &nbsp;<?php echo $pname; ?></li>
+            <?php $i = $i + 1;
+        } ?>
+        </ul>
+    <?php }
 
-    //         $search_products = $data['search'];
-    //         if($search_products!=""){
-    //             $products = Products::select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.after_pprice','categories.name as catname','categories.description as catdesc')
-    //             ->join('categories', 'products.cat_id', '=', 'categories.id')
-    //             ->where('product_name', 'like', '%'.$search_products.'%')
-    //             ->orWhere('product_code', 'like', '%'.$search_products.'%')
-    //             ->paginate(6);
-    //             $products->appends(['q' => $search_products]);
-    //         }else{
-    //             $products = Products::select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.after_pprice','categories.name as catname','categories.description as catdesc')
-    //             ->join('categories', 'products.cat_id', '=', 'categories.id')
-    //             ->orderBy('id','DESC')
-    //             ->paginate(6);
-    //         }
-    //         // $products = Products::select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.after_pprice','categories.name as catname','categories.description as catdesc')
-    //         // ->join('categories', 'products.cat_id', '=', 'categories.id')->where('product_name', 'like','%'.$search_products.'%')->orwhere('product_code',$search_products)->orderBy('id','DESC')
-    //         // ->paginate(6);
+    public function send_product(Request $request){
 
-    //         $categories = Category::with('categories')->where(['parent_id'=>0])->get();
-    //         $latests = DB::table('products')->select('products.id',DB::raw('substr(product_name, 1, 40) as name'),'products.product_img','products.before_price','products.after_pprice')
-    //         ->limit(5)
-    //         ->get();
+        $s_text = $request['s_text'];
+        $category = Category::where('name','like','%'.$s_text.'%')->limit(3)->get();
+        $list = "<table class='search_table' style='width:100%'>";
+        $list .= "<tr style='text-align: center; color:#0a0a0a; width:100%;'><td><b>Categories</b></td></tr>";
+        
+        $i = 1;
+        
+        foreach($category as $cat){
+            $cat_name = $cat['name'];
+            $cat_id = $cat['id'];
+            $cat_slug = $cat['url'];
+        
+            $list .= "<tr><td tabindex = '$i'  data-pname = '$cat_name' style='font-size:13px; padding-left:10px;'>
+            <a href = '/category/".$cat_slug."'>$cat_name</a></td></tr>";
+        }
+        $products = Products::where('product_name','like','%'.$s_text.'%')->limit(5)->get();
+        
+        $all_products = Products::where('product_name','like','%'.$s_text.'%')->get()->count();
+        
+        $list .= "</table>";
+        
+        $list .= "<table class='search_table' style='width:100%'>";
+        
+        $list .= "<tr><td colspan='3' style='text-align: center; color:#0a0a0a; width:100%;'><b>Product</b></td></tr>";
+    
+        foreach($products as $prod){
+            $product_id = $prod['id'];
+            $product_name = $prod['product_name'];
+            $product_slug = $prod['slug'];
+            $product_image = $prod['image'];
+            $product_price = $prod['after_pprice'];
+            if($product_price == ''){
+                $product_price = $prod['before_price'];
+            }
             
-    //         return view('search')->with(compact('search_products','products','categories','latests','search_products'));
-    //     }
-    // }
+            $list .= "<tr class='product_tr'><td  data-slug = '$product_id' style='font-size:13px;'><img src='/images/products/".$product_image."' style='width:50px;'>
+            </td><td><a href='/products/".$product_id."'>$product_name</a></td><td class='search_price'><span class = 'search_sticker' style=''>&#2547;$product_price</td></tr>";
+        }
+        
+        $list .= "<tr><td colspan='3' style='text-align:center'><a href='/searchproducts/".$s_text."'>See all <span class = 'search_sticker'>".$all_products."</span> Products</a></td></tr>";
+        
+        $list .= "</table>";
+        
+        return $list;
+    }
+
+    public function searchResults($key){
+        $q = $key;
+        if($key != ""){
+            $products = Products::select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.after_pprice','categories.name as catname','categories.description as catdesc')
+            ->join('categories', 'products.cat_id', '=', 'categories.id')
+            ->where('products.product_name', 'LIKE', '%' . $key . '%' )->orWhere ( 'products.product_code', 'LIKE', '%' . $key . '%' )->paginate (12)->setPath ( '' );
+            $pagination = $products->appends ( array (
+                'q' => $key 
+            ) );
+            $count = $products->count();
+            if (count ( $products ) > 0)
+            return view ( 'search-results' )->with(compact('products','q','count'));
+        }
+        return view ( 'search-results' )->with('flash_message_success', 'No product found. Try searching again!');
+    }
     
 }

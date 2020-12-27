@@ -43,7 +43,7 @@
                         <input type="hidden" name="inputColor" value="{{$singleProduct->product_color}}">
                         <input type="hidden" name="inputPrice" id="inputPrice" value="{{ $singleProduct->after_pprice }}">
                         <input type="hidden" name="inputImage" id="inputImage" value="{{ $singleProduct->product_img }}">
-                        <div class="col-lg-6 col-12 mb-50">
+                        <div class="col-lg-4 col-12 mb-50">
                             <!-- Image -->
                             <div class="single-product-image thumb-left">
                                 <div class="tab-content">
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                                 
-                        <div class="col-lg-6 col-12 mb-50">
+                        <div class="col-lg-8 col-12 mb-50">
                             <!-- Content -->
                             <div class="single-product-content">
                                 <!-- Category & Title -->

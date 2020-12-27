@@ -31,7 +31,7 @@
         <div class="container">
             <div class="row">
                 <div class="col mb-50">
-                    <div class="category-page-title"><h4><span>{{ $products->total() }}</span> Search results found for keyword "{{$q}}"</h4></div>
+                    <div class="category-page-title"><h4><span>{{ $products->total() }}</span> Search results found for keyword '{{$q}}'</h4></div>
                 </div>
             </div>
             @if ($success = Session::get('flash_message_success'))

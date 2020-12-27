@@ -18,7 +18,8 @@ use Symfony\Component\Console\Input\Input;
 
 Route::get('/', 'IndexController@index')->name('home');
 Route::get('/loadmore', 'IndexController@products_loadmore')->name('loadmore');
-
+Route::get('/get_product', 'PagesController@get_product')->name('get_product');
+Route::post('/get_product', 'PagesController@send_product')->name('send_product');
 Route::get('/test_loadmore', 'IndexController@test_loadmore')->name('test_loadmore');
 
 Route::get('/products/{id}', 'ProductsController@singleProduct')->name('singleProduct');
@@ -52,8 +53,17 @@ Route::any ( '/search', function (Request $request) {
     if (count ( $products ) > 0)
         return view ( 'search' )->with(compact('products','q','count'));
     }
-        return view ( 'search' )->withMessage( 'No product found. Try to search again !' );
+    $products = Products::select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.after_pprice','categories.name as catname','categories.description as catdesc')
+    ->join('categories', 'products.cat_id', '=', 'categories.id')
+    ->where('products.product_name', 'LIKE', '%' . $q . '%' )->orWhere ( 'products.product_code', 'LIKE', '%' . $q . '%' )->paginate (12)->setPath ( '' );
+    $pagination = $products->appends ( array (
+                'q' => $request->input('q') 
+        ) );
+    
+    return view ( 'search' )->with('flash_message_success', 'No product found. Try to search again!')->with('q',$q)->with('products',$products);
 } );
+
+Route::match(['get','post'],'/searchproducts/{key}','PagesController@searchResults')->name('search-results');
 
 Route::group(['middleware' => ['userlogin']], function(){
     //User Account Page

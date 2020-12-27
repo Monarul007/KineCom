@@ -73,6 +73,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="inputType">Category Type <span class="small">(If fetaured category block will be diplayed on homepage)</span></label>
+                                <select id="inputType" name="cat_type" class="form-control custom-select">
+                                    <option selected disabled>Select one</option>
+                                    <option value="1">Featured Category</option>
+                                    <option value="0">Normal Category</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="inputStatus">Status</label>
                                 <select id="inputStatus" name="cat_status" class="form-control custom-select">
                                     <option selected disabled>Select one</option>

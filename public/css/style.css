@@ -1,6 +1,6 @@
 /*-----------------------------------------------------------------------------------
 
-    Template Name: KineCom - eCommerce Bootstrap4 HTML Template
+    Template Name: House of Brands - eCommerce Bootstrap4 HTML Template
     Version: 1.0
 
 -----------------------------------------------------------------------------------
@@ -211,7 +211,9 @@ ul {
   @media only screen and (max-width: 479px) {
     .container-fluid {
       padding: 0 15px;
-      width: 350px; } }
+      width: 375px; } 
+    .header-top-border {border: 0 !important;}
+  }
 
 @media only screen and (min-width: 1200px) and (max-width: 1599px) {
   .footer-section .container-fluid {
@@ -3722,6 +3724,36 @@ img.mfp-img {
   .header-search .search-toggle:hover {
     color: #202020; }
 
+
+.valid{
+  background-color: #fff;
+  box-shadow: 0 1px 6px rgba(32,33,36,.28);
+  border-color: rgba(223,225,229,0);
+  border-bottom: 0 !important;
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.shadow{
+  box-shadow: 0 1px 6px rgba(32,33,36,.28);
+  border-color: rgba(223,225,229,0);
+}
+
+.search_table tr td {
+  border-bottom: 1px solid #e6e6e6;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.search_sticker {
+  background: #F00;
+  color: #FFF;
+  padding: 5px;
+  width: 70px;
+  border-radius: 10px;
+}
+
 /*-- Header Search Container --*/
 .header-search-container {
   position: absolute;
@@ -3784,7 +3816,14 @@ img.mfp-img {
       .header-advance-search .input {
         width: 100%;
         padding-right: 70px;
-        border-right: none !important; } }
+        border-right: none !important; }
+      .m-none{display: none;}
+      .header-top .justify-content-between > [class*="col"]{
+        width: 100%;
+      }
+      .header-logo img{max-width: 160px;}
+      .header-advance-search{width: 100%;}
+    }
     .header-advance-search .input input {
       border: none;
       height: 37px;
@@ -4197,7 +4236,7 @@ img.mfp-img {
     /*---- Mean Nav ----*/ }
     .mobile-menu .mean-bar .meanmenu-reveal {
       position: absolute;
-      top: -40px; }
+      top: -50px; }
       .mobile-menu .mean-bar .meanmenu-reveal span {
         position: relative;
         /*---- Menu Open ----*/
@@ -7121,6 +7160,7 @@ img.mfp-img {
       display: -ms-flexbox;
       display: flex;
       -ms-flex-wrap: wrap;
+      min-height: 110px;
       flex-wrap: wrap; }
       .ee-product .content .category-title .cat {
         display: inline-block;
@@ -7128,14 +7168,16 @@ img.mfp-img {
         text-transform: capitalize;
         font-size: 13px;
         color: #444444;
+        text-align: left;
         letter-spacing: 0.5px;
         margin-bottom: 4px; }
         .ee-product .content .category-title .cat:hover {
           color: #202020; }
       .ee-product .content .category-title .title {
-        font-size: 16px;
+        font-size: 13px;
         font-weight: 600;
         margin: 0;
+        text-align: left;
         line-height: 20px;
         -webkit-box-flex: 1;
         -ms-flex: 1 0 100%;
@@ -9839,6 +9881,8 @@ img.mfp-img {
   color: #202020;
   background-color: #f5d730; }
 
+.desktop-none{display: none;}
+
 /*---------------------------------------
     14. Feature
 -----------------------------------------*/
@@ -9881,7 +9925,9 @@ img.mfp-img {
       @media only screen and (max-width: 479px) {
         .feature .feature-wrap h4 {
           font-size: 16px;
-          margin-bottom: 4px; } }
+          margin-bottom: 4px; }
+        .desktop-none{display: block;}
+      }
     .feature .feature-wrap p {
       font-size: 14px;
       line-height: 20px;
@@ -11846,7 +11892,7 @@ ul.link-widget li {
   background-color: rgb(245, 245, 245);
   padding: 10px;
   max-width: 100%;
-  min-width: 199px;
+  min-width: 110px;
 }
 .dcategories .single-cat:hover {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
@@ -11872,8 +11918,9 @@ ul.link-widget li {
 }
 @media only screen and (max-width: 600px) {
   .dcategories .single-cat {
-    min-width: 160px;
+    min-width: 130px;
   }
+  .ee-product .ratting{display: none;}
 }
 /* My Account Page */
 .vd_info, .vd_info-menu {
@@ -11881,3 +11928,19 @@ ul.link-widget li {
   top: 10px;
   right: 18px;
 }
+
+.mobile_bottom_part {
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  bottom: -1px;
+  z-index: 999;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  -webkit-box-shadow: 0 0 12px rgba(0,0,0,.03);
+  box-shadow: 0 0 12px rgba(0,0,0,.03);
+  left: 0;
+  border-top: 1px solid rgba(0,0,0,.05);
+  padding: 10px 0 10px 0;
+}
+.mobile_bottom_part i{font-size: 23px; color: orange;}
