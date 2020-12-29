@@ -23,13 +23,52 @@ class PagesController extends Controller
         return view('admin.print-labels')->with(compact('products'));
     }
 
-    public function index(){
-
-        $products = DB::table('products')
+    public function index($key = null){
+        if($key == 'sort=25'){
+            $products = DB::table('products')
                         ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.product_desc','products.product_specs','products.after_pprice','products.stock','categories.name as catname','categories.description as catdesc','categories.url')
                         ->join('categories', 'products.cat_id', '=', 'categories.id')
                         ->orderBy('id','DESC')
-                        ->paginate(12);
+                        ->paginate(24);
+        }elseif($key == 'sort=50'){
+            $products = DB::table('products')
+                        ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.product_desc','products.product_specs','products.after_pprice','products.stock','categories.name as catname','categories.description as catdesc','categories.url')
+                        ->join('categories', 'products.cat_id', '=', 'categories.id')
+                        ->orderBy('id','DESC')
+                        ->paginate(48);
+        }elseif($key == 'sort=trending'){$products = DB::table('products')
+            ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.product_desc','products.product_specs','products.after_pprice','products.stock','categories.name as catname','categories.description as catdesc','categories.url')
+            ->join('categories', 'products.cat_id', '=', 'categories.id')
+            ->orderBy('id','DESC')
+            ->paginate(12);
+        }elseif($key == 'sort=popular'){
+            $products = DB::table('products')
+            ->select('products.id','products.product_name as name','products.product_img','products.before_price','products.product_desc','products.product_specs','products.after_pprice','products.stock','categories.name as catname','categories.description as catdesc','categories.url')
+            ->join('categories', 'products.cat_id', '=', 'categories.id')
+            ->inRandomOrder()
+            ->paginate(12);
+        }elseif($key == 'sort=newest'){$products = DB::table('products')
+            ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.product_desc','products.created_at','products.product_specs','products.after_pprice','products.stock','categories.name as catname','categories.description as catdesc','categories.url')
+            ->join('categories', 'products.cat_id', '=', 'categories.id')
+            ->orderBy('created_at','DESC')
+            ->paginate(12);
+        }elseif($key == 'sort=price-asc'){$products = DB::table('products')
+            ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.product_desc','products.product_specs','products.after_pprice','products.stock','categories.name as catname','categories.description as catdesc','categories.url')
+            ->join('categories', 'products.cat_id', '=', 'categories.id')
+            ->orderBy('before_price','ASC')
+            ->paginate(12);
+        }elseif($key == 'sort=price-desc'){$products = DB::table('products')
+            ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.product_desc','products.product_specs','products.after_pprice','products.stock','categories.name as catname','categories.description as catdesc','categories.url')
+            ->join('categories', 'products.cat_id', '=', 'categories.id')
+            ->orderBy('before_price','DESC')
+            ->paginate(12);
+        }else{
+            $products = DB::table('products')
+            ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.product_desc','products.product_specs','products.after_pprice','products.stock','categories.name as catname','categories.description as catdesc','categories.url')
+            ->join('categories', 'products.cat_id', '=', 'categories.id')
+            ->orderBy('id','DESC')
+            ->paginate(12);
+        }
         
         $categories = Category::with('categories')->where(['parent_id'=>0])->get();
         $latests = DB::table('products')->select('products.id',DB::raw('substr(product_name, 1, 40) as name'),'products.product_img','products.before_price','products.after_pprice')
@@ -110,31 +149,42 @@ class PagesController extends Controller
         $general_settings->site_address = $siteAddress;
         $general_settings->phone        = $phone;
         $general_settings->email        = $email;
-        
+
         if($req->hasFile('favicon')){
-            
+            $prev_img = $general_settings->favicon;
+            $image_path = 'images/theme/'.$prev_img;
+            if(file_exists($image_path)) {
+                @unlink($image_path);
+            }
             $file = $req->file('favicon');
             $basename = basename($file);
             $img_name = $basename.time().'.'.$file->getClientOriginalExtension();
-            $file->move('public/images/theme/', $img_name);
+            $file->move('images/theme/', $img_name);
             $general_settings->favicon = $img_name;
         }
         
         if($req->hasFile('logoSmall')){
-            
+            $prev_img = $general_settings->logo_small;
+            $image_path = 'images/theme/'.$prev_img;
+            if(file_exists($image_path)) {
+                @unlink($image_path);
+            }
             $file1 = $req->file('logoSmall');
             $basename1 = basename($file1);
             $img_name1 = $basename1.time().'.'.$file1->getClientOriginalExtension();
-            $file1->move('public/images/theme/', $img_name1);
+            $file1->move('images/theme/', $img_name1);
             $general_settings->logo_small = $img_name1;
-            
         }
         if($req->hasFile('logoBig')){
-            
+            $prev_img = $general_settings->logo_big;
+            $image_path = 'images/theme/'.$prev_img;
+            if(file_exists($image_path)) {
+                @unlink($image_path);
+            }
             $file2 = $req->file('logoBig');
             $basename2 = basename($file2);
             $img_name2 = $basename2.time().'.'.$file2->getClientOriginalExtension();
-            $file2->move('public/images/theme/', $img_name2);
+            $file2->move('images/theme/', $img_name2);
             $general_settings->logo_big = $img_name2;
         }
         

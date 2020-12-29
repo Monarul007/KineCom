@@ -354,6 +354,9 @@
                                  $('#print_add').css('width','100%').css('text-align','center');
                     		    
                     			 $('#print_add').show();
+
+                                 $('#prodlist td').remove();
+                                 $('.footer-table td').remove();
                     			 
                     			 $('#logoimage').css("display","none");
                     			 
@@ -367,10 +370,7 @@
                                  
                                  $("#cust_add").show();
                     	 		    
-                    	 		 $("#cust_add").append("Customer: "+tcname+"<br>");
-                                 $("#cust_add").append("Phone: "+tcphone+"<br>");
-                                 $("#cust_add").append("Invoice: "+invoice);
-                                 $("#cust_add").append(" &nbsp; ");
+                                 $("#mid_section").append("<table class='footer-table'><tr><td>Supplier: </td><td>"+tcname+"</td></tr><tr><td>Phone: </td><td>"+tcphone+"</td></tr><tr><td>Memo: </td><td>"+invoice+"</td></tr></table>");
                     		     
                     		     $("#prodlist").css('border-collapse','collapse');
                     		

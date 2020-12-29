@@ -46,6 +46,7 @@ class HomeController extends Controller
                 $data['totalDelivered'] = $totalDelivered;
                 
                 //////Get Todays Order////////
+                $todays_pending = Order::where('order_date', $today)->where('status','pending')->get();
                 $todays_order = Order::where('order_date', $today)->get();
                 $data['todays_order'] = $todays_order;
                 //////Get Weekly Sales//////
@@ -91,7 +92,7 @@ class HomeController extends Controller
                 $data['monthsArray'] = $monthsArray;
                 $data['SaleByMonthArray'] = $SaleByMonthArray;
 
-                return view('dashboard')->with(compact('data','todays_order'));
+                return view('dashboard')->with(compact('data','todays_order','todays_pending'));
             }elseif(Auth::user()->type == 'customer'){
                 return redirect('myaccount');
             }else{

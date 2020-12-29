@@ -136,7 +136,7 @@
           {
             "mData": "order_number",
             "mRender": function (data, type, row) {
-                return "<input type='checkbox' class='slct' data-id=" + row.id + " value=" + row.order_number + ">";
+                return "<input name='myID' type='checkbox' class='slct' data-id=" + row.order_number + " value=" + row.order_number + ">";
             }
           },
           {data:'order_number',},
@@ -174,13 +174,8 @@
       $('#selectAction').change(function(){
         var take_value = $(this).val();
         var orderid = [];
-        $('#Pendings tr').each(function(){
-            if($(this).find('.slct').prop('checked') == true){
-              var take_orderid = $(this).find('.slct').val();
-              orderid.push(take_orderid);                 
-            }else{
-              alert("Nothing Selected. Please Select Atleast one.");
-            }
+        $("input[name='myID']:checked").each(function () {
+          orderid.push($(this).data("id"));
         });
 
         var formData = new FormData();

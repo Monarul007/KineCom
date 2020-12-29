@@ -10,7 +10,7 @@
                     <div class="breadcrumb">
                         <ul>
                             <li><a href="#">HOME</a></li>
-                            <li><a href="/shop">Products</a></li>
+                            <li><a href="/shop/all">Products</a></li>
                             <li><a href="">{{$singleProduct->product_name}}</a></li>
                         </ul>
                     </div>

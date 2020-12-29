@@ -10,7 +10,7 @@
                     <div class="breadcrumb">
                         <ul>
                             <li><a href="/">HOME</a></li>
-                            <li><a href="/shop">Shop</a></li>
+                            <li><a href="/shop/all">Shop</a></li>
                             <li><a href="">Cart</a></li>
                         </ul>
                     </div>
@@ -126,7 +126,7 @@
                             </div>
                             <div class="cart-summary-button">
                                 <a href="{{ url('/checkout') }}" class="mr-2 btn btn-medium btn-circle">Proceed Checkout</a>
-                                <a href="{{ route('shop') }}" class="btn bg-warning btn-medium btn-circle">Update Cart</a>
+                                <a href="{{ url('/shop/all') }}" class="btn bg-warning btn-medium btn-circle">Update Cart</a>
                             </div>
                         </div>
                     </div>

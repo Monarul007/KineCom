@@ -23,7 +23,7 @@ Route::post('/get_product', 'PagesController@send_product')->name('send_product'
 Route::get('/test_loadmore', 'IndexController@test_loadmore')->name('test_loadmore');
 
 Route::get('/products/{id}', 'ProductsController@singleProduct')->name('singleProduct');
-Route::get('/shop', 'PagesController@index')->name('shop');
+Route::get('/shop/{key}', 'PagesController@index')->name('shop');
 Route::get('/category/{url}', 'PagesController@products')->name('category');
 Route::get('/brands/{url}', 'PagesController@brands')->name('brands');
 Route::get('/get-product-price', 'ProductsController@productPrice')->name('get-product-price');
@@ -230,7 +230,6 @@ Route::group(['middleware' => ['auth']], function(){
 //////////////POS Section/////////////////////////
 
 Route::get('/dashboard/pos', 'PosController@index')->name('pos_index')->middleware('auth');
-
 Route::get('/dashboard/purchase_products', 'PosPurchaseController@purchase_products')->name('purchase_products')->middleware('auth');
 
 Route::post('/dashboard/get_purchase_products', 'PosPurchaseController@get_purchase_products')->name('get_purchase_products')->middleware('auth');

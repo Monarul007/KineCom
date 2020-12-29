@@ -117,6 +117,13 @@ class ProductsController extends Controller
             }
         }
         $brands = Brands::orderBy('name', 'ASC')->get();
+        $bransArray = [];
+        if($brands != null){
+            foreach($brands as $brand){
+                $bransArray[] = $brand->name;
+                $bransArray[] = $brand->id;
+            }
+        }
         if($req->isMethod('post')){
             $barcode = $req->inputBarcode;
             if(empty($barcode)){
@@ -145,7 +152,7 @@ class ProductsController extends Controller
             $product->save();
             return redirect('/admin/view_products')->with('flash_message_success', 'Product Updated Successfully!');
         }
-        return view('admin.edit_product')->with('products', $products)->with('catArray', $catArray)->with('brands', $brands)->with('id', $id);
+        return view('admin.edit_product')->with('products', $products)->with('catArray', $catArray)->with('bransArray', $bransArray)->with('id', $id);
     }
 
     public function deleteProduct($id){

@@ -1202,7 +1202,7 @@ class PosSalesController extends Controller
         $enddate = $req['to_date'];
 
         if(!$stdate){
-            $stdate = date('Y-m-d', strtotime('-1 month'));
+            $stdate = date('Y-m-d', strtotime('-1 day'));
         }
         if(!$enddate){
             $enddate = date('Y-m-d', strtotime('+1 day'));

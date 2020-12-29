@@ -24,34 +24,42 @@ class PosController extends Controller
     public function index(){
         
         $user_id = Auth::id();
-
         $get_license = DB::table('users')->where('id', $user_id)->first();
-
         $license = '';
-        
         if(!is_null($get_license)){
-            
-            $license = $get_license->license;
-            
+            $license = $get_license->license; 
         }
         
         if($license != ''){
-            
             $license = str_replace("-","", $license);
-            
             $date_to = substr($license, 16, 26);
-            
             $Functions = new Functions;
-            
             $time = $Functions->makeNumber($date_to);
-
             $time = Date('Y-m-d', $time);
-            
         }else{
             $time = "";
         }
-        
-        return view('admin.pos.index')->with('license', $time);
+
+        $yesterday = date('Y-m-d', strtotime('yesterday'));
+        $today = date('Y-m-d');
+        $lastday = date('Y-m-d', strtotime('-1 week'));
+        $monthDate = date("Y-m-d", strtotime( date( "Y-m-d", strtotime( date("Y-m-d") ) ) . "+1 month" ) );
+        //DAILY
+        $todaysPurchase = DB::table('purchase_primary')->where('date', $today)->sum('total');
+        $todaysSales = DB::table('sales_invoice')->where('date', $today)->sum('gtotal');
+        $todaysPurchasePayment = DB::table('purchase_primary')->where('date', $today)->sum('payment');
+        $todaysSalesDue = DB::table('sales_invoice')->where('date', $today)->sum('due');
+        // WEEKLY
+        $weeklyPurchase = DB::table('purchase_primary')->whereBetween('date', [$lastday, $today])->sum('total');
+        $weeklySales = DB::table('sales_invoice')->whereBetween('date', [$lastday, $today])->sum('gtotal');
+        $weeklyPurchasePayment = DB::table('purchase_primary')->whereBetween('date', [$lastday, $today])->sum('payment');
+        $weeklySalesDue = DB::table('sales_invoice')->whereBetween('date', [$lastday, $today])->sum('due');
+        // MONTHLY
+        $monthlyPurchase = DB::table('purchase_primary')->whereBetween('date', [$monthDate, $today])->sum('total');
+        $monthlySales = DB::table('sales_invoice')->whereBetween('date', [$monthDate, $today])->sum('gtotal');
+        $monthlyPurchasePayment = DB::table('purchase_primary')->whereBetween('date', [$lastday, $today])->sum('payment');
+        $monthlySalesDue = DB::table('sales_invoice')->whereBetween('date', [$monthDate, $today])->sum('due');
+        return view('admin.pos.index')->with(compact('todaysPurchase','todaysSales','todaysPurchasePayment','todaysSalesDue','weeklyPurchase','weeklySales','weeklyPurchasePayment','weeklySalesDue','monthlyPurchase','monthlySales','monthlyPurchasePayment','monthlySalesDue'));
     }
     
      public function pos_client_registration(){

@@ -10,7 +10,7 @@
                     <div class="breadcrumb">
                         <ul>
                             <li><a href="/">HOME</a></li>
-                            <li><a href="/shop">Categories</a></li>
+                            <li><a href="/shop/all">Categories</a></li>
                             <li><a href="#">{{$countCat->name}}</a></li>
                         </ul>
                     </div>

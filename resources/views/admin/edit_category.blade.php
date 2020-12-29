@@ -66,9 +66,9 @@
                                 <label for="parent_cat">Parent Category</label>
                                 <select id="parent_cat" name="parent_cat" class="form-control">
                                     <option value="0">Main Category</option>
-                                    @for($i = 0; $i < count($catArray);)
-                                        <option selected value="{{$catArray[$i+1]}}">{{ $catArray[$i] }}</option>
-                                            {{$i = $i + 2}}
+                                    @for ($i = 0; $i < count($catArray);)
+                                    <option value="{{ $catArray[$i + 1] }}" {{ $cat->parent_id ==$catArray[$i + 1]?'selected':'' }}>{{ $catArray[$i] }}</option>
+                                        {{ $i = $i + 2 }}
                                     @endfor
                                 </select>
                             </div>

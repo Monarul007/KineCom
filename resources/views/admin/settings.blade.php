@@ -12,7 +12,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/admin/index">Home</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
               <li class="breadcrumb-item active">Settings</li>
             </ol>
           </div>
@@ -69,17 +69,17 @@
                     <div class="form-group">
                         <label>Favicon</label>
                         <input type="file" name="favicon" class="form-control">
-                        <img src="{{asset('public/images/theme')}}/<?php echo $settings->favicon;?>" style="width: 100px; height: auto; margin: 20px 0;">
+                        <img src="{{asset('/images/theme')}}/<?php echo $settings->favicon;?>" style="width: 100px; height: auto; margin: 20px 0;">
                     </div>
                     <div class="form-group">
                         <label>Logo Small</label>
                         <input type="file" name="logoSmall" class="form-control">
-                        <img src="{{asset('public/images/theme')}}/<?php echo $settings->logo_small;?>" style="width: 100px; height: auto; margin: 20px 0;">
+                        <img src="{{asset('/images/theme')}}/<?php echo $settings->logo_small;?>" style="width: 100px; height: auto; margin: 20px 0;">
                     </div>
                     <div class="form-group">
                         <label>Logo Big</label>
                         <input type="file" name="logoBig" class="form-control">
-                        <img src="{{asset('public/images/theme')}}/<?php echo $settings->logo_big;?>" style="width: 100px; height: auto; margin: 20px 0;">
+                        <img src="{{asset('/images/theme')}}/<?php echo $settings->logo_big;?>" style="width: 100px; height: auto; margin: 20px 0;">
                     </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary mr-2">Submit</button>

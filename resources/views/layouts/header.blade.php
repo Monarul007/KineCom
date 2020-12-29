@@ -10,16 +10,15 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>House of Brands - Your trusted house of most common brands.</title>
+        <title>{{$GenSettings->site_name}} - {{$GenSettings->site_tagline}}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="images/theme/{{$GenSettings->favicon}}">
         
-        <!-- CSS
-        ============================================ -->
+        <!-- CSS ============================================ -->
        
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
@@ -46,7 +45,7 @@
                 </a>
             </div>
             <div class="col-3 text-center">
-                <a href="/shop">
+                <a href="/shop/all">
                     <i class="fa fa-th-large"></i>
                 </a>
             </div>
@@ -56,7 +55,7 @@
                 </a>
             </div>
             <div class="col-3 text-center">
-                <a href="/my-account">
+                <a href="/myaccount">
                     <i class="fa fa-user-circle"></i>
                 </a>
             </div>
@@ -115,8 +114,8 @@
                         <!-- Logo Start -->
                         <div class="header-logo">
                             <a href="/">
-                                <img src="/images/logo.png" alt="House of Brands - Your trusted house of most common brands." width="220">
-                                <img class="theme-dark" src="/images/logo-light.png" alt="House of Brands - Your trusted house of most common brands." width="220">
+                                <img src="/images/theme/{{$GenSettings->logo_small}}" alt="House of Brands - Your trusted house of most common brands." width="220">
+                                <img class="theme-dark" src="/images/theme/{{$GenSettings->logo_big}}" alt="House of Brands - Your trusted house of most common brands." width="220">
                             </a>
                         </div><!-- Logo End -->
                     </div>
@@ -128,7 +127,7 @@
                                 <ul>
                                     <li class="active"><a href="/">HOME</a>
                                     </li>
-                                    <li><a href="/shop">Shop</a></li>
+                                    <li><a href="/shop/all">Shop</a></li>
                                     <li><a href="#">BLOG</a></li>
                                     <li><a href="#">CONTACT</a></li>
                                 </ul>

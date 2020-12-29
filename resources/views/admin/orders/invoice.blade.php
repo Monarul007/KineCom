@@ -53,15 +53,18 @@ $status = '';
 <body>
 
 	<div id="page-wrap">
-        <button id="print-btn" onclick="window.print()" style="padding: 10px;">Print Invoice</button>
+        <div id="button-div">
+            <a href="" class="btn btn-success" id="print-btn" onclick="window.print()">Print Invoice</a>
+            <a class="btn btn-info" href="{{ url()->previous() }}">Back to previous page</a>
+        </div>
 		<textarea id="header">INVOICE</textarea>
 		
 		<div class="row mb-5">
             <div class="col-7">
-                <h3>KineCom Inc.</h3>
-                <span><b>Address</b> 130 Lammas Street, GREAT BRICETT - IP7 9DY</span> <br>
-                <span><b>Phone:</b> +0123456789</span> <br>
-                <span><b>E-mail:</b> hello@kinecom.com.bd</span>
+                <h3>{{$GenSettings->site_name}}.</h3>
+                <span><b>Address</b> {{$GenSettings->site_address}}</span> <br>
+                <span><b>Phone:</b> {{$GenSettings->phone}}</span> <br>
+                <span><b>E-mail:</b> {{$GenSettings->email}}</span>
             </div>
             <div id="logo" class="col-5">
               <div id="logoctr">
@@ -75,7 +78,7 @@ $status = '';
                 <input id="imageloc" type="text" size="50" value="" /><br />
                 (max width: 540px, max height: 100px)
               </div>
-              <img id="image" src="/images/logo.png" alt="logo" />
+              <img id="image" src="/images/theme/{{$GenSettings->logo_small}}" alt="logo" />
             </div>
 		</div>
 		
@@ -170,29 +173,29 @@ $status = '';
                 <td class="description">{{$ordD->name}}</td>
                 <td><span class="cost">{{$ordD->price}}</span></td>
                 <td><span class="qty">{{$ordD->qnt}}</span></td>
-                <td><span class="price">$<?= $price ?></span></td>
+                <td><span class="price">৳<?= $price ?></span></td>
             </tr>
             @endforeach
             <tr>
                 <td colspan="4" class="blank"> </td>
                 <td colspan="1" class="total-line">Subtotal</td>
-                <td class="total-value"><div id="subtotal">$<?= $subtotal ?></div></td>
+                <td class="total-value"><div id="subtotal">৳<?= $subtotal ?></div></td>
             </tr>
             <tr>
                 <td colspan="4" class="blank"> </td>
                 <td colspan="1" class="total-line">Deliver Charge</td>
-                <td class=""><div id="">$<?= $scharge ?></div></td>
+                <td class=""><div id="">৳<?= $scharge ?></div></td>
             </tr>
             <tr>
                 <td colspan="4" class="blank"> </td>
                 <td colspan="1" class="total-line">Discount</td>
 
-                <td class="total-value">$<?= $discount ?></td>
+                <td class="total-value">৳<?= $discount ?></td>
             </tr>
             <tr>
                 <td colspan="4" class="blank"> </td>
                 <td colspan="1" class="total-line balance">Grand Total</td>
-                <td class="total-value balance"><div class="due">$<?php 
+                <td class="total-value balance"><div class="due">৳<?php 
                                 $gtotal = ($subtotal - $discount) + $scharge;
                                 echo $gtotal;
                             ?></div></td>
@@ -204,7 +207,7 @@ $status = '';
 		  <h5>Terms</h5>
 		  <textarea>Finance Charge of 1.5% will be made on unpaid balances after 30 days.</textarea>
 		</div>
-        <div class="mt-2 mb-5 text-center text-info">Prepared by : <a class="" target="_blank" href="{{ route('home') }}">KineCom.</a></div>
+        <div class="mt-2 mb-5 text-center text-info">Prepared by : <a class="" target="_blank" href="{{ route('home') }}">{{$GenSettings->site_name}}.</a></div>
 	</div>
 </body>
 
@@ -255,8 +258,7 @@ table td, table th { border: 1px solid rgb(0 0 0 / 12%); padding: 5px; }
 
 textarea:hover, textarea:focus, #items td.total-value textarea:hover, #items td.total-value textarea:focus, .delete:hover { background-color:#e4e6d8; }
 @media print{
-    #print-btn {display: none;}
-    #print-div{margin-top: 50px;}
+    #button-div {display: none;}
 }
 </style>
 

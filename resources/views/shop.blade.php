@@ -15,28 +15,25 @@
                                     <a class="active" href="#" data-target="grid"><i class="fa fa-th"></i></a>
                                     <a href="#" data-target="list"><i class="fa fa-list"></i></a>
                                 </div>
-
                                 <!-- Product Showing -->
                                 <div class="product-showing">
                                     <p>Showing</p>
-                                    <select name="showing" class="nice-select">
-                                        <option value="2">12</option>
-                                        <option value="3">25</option>
-                                        <option value="4">50</option>
-                                        <option value="5">100</option>
+                                    <select onchange="window.location=this.value" name="showing" class="nice-select">
+                                        <option value="/shop/sort=25">12</option>
+                                        <option value="/shop/sort=25">25</option>
+                                        <option value="/shop/sort=50">50</option>
                                     </select>
                                 </div>
 
                                 <!-- Product Short -->
                                 <div class="product-short">
                                     <p>Short by</p>
-                                    <select name="sortby" class="nice-select">
-                                        <option value="trending">Trending items</option>
-                                        <option value="sales">Best sellers</option>
-                                        <option value="rating">Best rated</option>
-                                        <option value="date">Newest items</option>
-                                        <option value="price-asc">Price: low to high</option>
-                                        <option value="price-desc">Price: high to low</option>
+                                    <select onchange="window.location=this.value" name="sortby" class="nice-select">
+                                        <option value="/shop/sort=trending">Trending items</option>
+                                        <option value="/shop/sort=popular">Most popular items</option>
+                                        <option value="/shop/sort=newest">Newest items</option>
+                                        <option value="/shop/sort=price-asc">Price: low to high</option>
+                                        <option value="/shop/sort=price-desc">Price: high to low</option>
                                     </select>
                                 </div>
 

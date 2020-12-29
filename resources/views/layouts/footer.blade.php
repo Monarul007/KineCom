@@ -66,19 +66,21 @@
                             
                             <p class="contact-info">
                                 <span>Address</span>
-                                You address will be here <br>
-                                 Lorem Ipsum text                        </p>
+                                {{$GenSettings->site_address}} <br>
+                            </p>
                             
                             <p class="contact-info">
                                 <span>Phone</span>
-                                <a href="tel:01234567890">01234 567 890</a>
-                                <a href="tel:01234567891">01234 567 891</a>
+                                <a href="tel:{{$GenSettings->phone}}">{{$GenSettings->phone}}</a>
                             </p>
                             
                             <p class="contact-info">
                                 <span>Web</span>
-                                <a href="mailto:info@example.com">info@example.com</a>
-                                <a href="#">www.example.com</a>
+                                <a href="mailto:{{$GenSettings->phone}}">{{$GenSettings->phone}}</a>
+                                <a href="/"><?php
+                                    $host = request()->getHttpHost();
+                                    echo $host;
+                                ?></a>
                             </p>
                             
                         </div>
@@ -92,11 +94,9 @@
                             
                             <ul class="link-widget">
                                 <li><a href="#">About us</a></li>
-                                <li><a href="#">Features</a></li>
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Cart</a></li>
-                                <li><a href="#">Checkout</a></li>
-                                <li><a href="#">Wishlist</a></li>
+                                <li><a href="/myaccount">My Account</a></li>
+                                <li><a href="/cart">Cart</a></li>
+                                <li><a href="/checkout">Checkout</a></li>
                                 <li><a href="#">blog</a></li>
                                 <li><a href="#">Contact</a></li>
                             </ul>
@@ -111,9 +111,8 @@
                             <h4 class="widget-title">INFORMATION</h4>
                             
                             <ul class="link-widget">
-                                <li><a href="#">Track your order</a></li>
+                                <li><a href="/myaccount">Track your order</a></li>
                                 <li><a href="#">Locate Store</a></li>
-                                <li><a href="#">Online Support</a></li>
                                 <li><a href="#">Terms & Conditions</a></li>
                                 <li><a href="#">Payment</a></li>
                                 <li><a href="#">Shipping & Returns</a></li>
@@ -146,11 +145,11 @@
                 <div class="row">
                     <!-- Footer Copyright -->
                     <div class="col-lg-6 col-12">
-                        <div class="footer-copyright"><p>&copy; Copyright, All Rights Reserved by <a href="#">KineCom</a></p></div>
+                        <div class="footer-copyright"><p>&copy; Copyright, All Rights Reserved by <a href="#">{{$GenSettings->site_name}}.</a></p></div>
                     </div>
                     <!-- Footer Payment Support -->
                     <div class="col-lg-6 col-12">
-                        <div class="footer-payments-image"><img src="images/payment-support.png" alt="Payment Support Image"></div>
+                        <div class="footer-payments-image"><img src="/images/payment-support.png" alt="Payment Support Image"></div>
                     </div>
                 </div>
             </div>

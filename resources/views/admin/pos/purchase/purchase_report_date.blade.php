@@ -272,68 +272,68 @@
                               },
                               success: function(data){
                                   
-                                 var obj = JSON.parse(JSON.stringify(data));
+                                  var obj = JSON.parse(JSON.stringify(data));
+                                  
+                                  var invoice = obj.invoice;
+                                  var trow = obj.trow;
+                                  var company = obj.company;
+                                  var company_add = obj.company_add;
+                                  var tcname = obj.supp_name;
+                                  var tcphone = obj.supp_phone;
+                                  var amount = obj.amount;
+                                  var discount = obj.discount;
+                                  var total = obj.total;
+                                  var payment = obj.payment;
+                                  var date = obj.date;
+                                  
+                                  ////////////////////////////////////////
+                                  
+                                  $('.pos_div').show();
+             
+                                  $('#print_add').css('width','100%').css('text-align','center');
                                  
-                                 var invoice = obj.invoice;
-                                 var trow = obj.trow;
-                                 var company = obj.company;
-                                 var company_add = obj.company_add;
-                                 var tcname = obj.supp_name;
-                                 var tcphone = obj.supp_phone;
-                                 var amount = obj.amount;
-                                 var discount = obj.discount;
-                                 var total = obj.total;
-                                 var payment = obj.payment;
-                                 var date = obj.date;
+                                  $('#print_add').show();
+                                  
+                                  $('#prodlist td').remove();
+                                  $('.footer-table td').remove();
+                                  
+                                  $('#logoimage').css("display","none");
+                                  
+                                  $('#company').css("font-size","26px");
+                                  
+                                  $('#company').html(company);
+                                  
+                                  $('#company_add').html(company_add);
                                  
-                                 ////////////////////////////////////////
+                                  $("#mid_section").show();
+                                  
+                                  $("#cust_add").show();
+                                      
+                                   $("#mid_section").append("<table class='footer-table'><tr><td>Supplier: </td><td>"+tcname+"</td></tr><tr><td>Phone: </td><td>"+tcphone+"</td></tr><tr><td>Memo: </td><td>"+invoice+"</td></tr></table>");
+                                  
+                                  $("#prodlist").css('border-collapse','collapse');
+                             
+                                  $("#prodlist tbody tr").each(function() {
+                                       
+                                        $(this).find("th:eq(4)").remove();
+                                  });
                                  
-                                 $('.pos_div').show();
-            
-                                 $('#print_add').css('width','100%').css('text-align','center');
-                    		    
-                    			 $('#print_add').show();
-                    			 
-                    			 $('#logoimage').css("display","none");
-                    			 
-                    			 $('#company').css("font-size","26px");
-                    			 
-                    			 $('#company').html(company);
-                    		     
-                    		     $('#company_add').html(company_add);
-                    			
-                                 $("#mid_section").show();
+                                  $("#prodlist").append(trow);
+                                  
+                                  $("#prodlist th").css('font-size','14px');
+                                  
+                                  $("#prodlist td").css('font-size','14px').css('border','1px solid #000');
+                         
+                                  $('#prodlistDiv').css("height","").css("clear","float").css("background","#FFF").css("overflow","");
+                                  
                                  
-                                 $("#cust_add").show();
-                    	 		    
-                    	 		 $("#cust_add").append("Supplier: "+tcname+"<br>");
-                                 $("#cust_add").append("Phone: "+tcphone+"<br>");
-                                 $("#cust_add").append("Memo: "+invoice);
-                                 $("#cust_add").append(" &nbsp; ");
-                    		     
-                    		     $("#prodlist").css('border-collapse','collapse');
-                    		
-                    		     $("#prodlist tbody tr").each(function() {
-                    		          
-                    		           $(this).find("th:eq(4)").remove();
-                                 });
-                                
-                                 $("#prodlist").append(trow);
+                                  $('#printdiv').append("<table class='footer-table' style='border-collapse: collapse; width:100%;' border='1'><tr><td>Total Tk: </td><td>"+amount+"</td><td> Discount: </td><td>"+discount+"</td></tr><tr></tr><tr><td>All Total: </td><td>"+total+"</td><td>Recieved: </td><td>"+discount+"</td></tr><tr><td> Payment: </td><td>"+payment+"</td><td> Date: </td><td>"+date+"</td></tr></table>");
                                  
-                                 $("#prodlist th").css('font-size','14px');
-                    		     
-                    		     $("#prodlist td").css('font-size','14px').css('border','1px solid #000');
-                        
-                    			 $('#prodlistDiv').css("height","").css("clear","float").css("background","#FFF").css("overflow","");
-                    			 
-                    			
-                    			 $('#printdiv').append("<table class='footer-table' style='border-collapse: collapse; width:100%;' border='1'><tr><td>Total Tk: </td><td>"+amount+"</td><td> Discount: </td><td>"+discount+"</td></tr><tr></tr><tr><td>All Total: </td><td>"+total+"</td><td>Recieved: </td><td>"+discount+"</td></tr><tr><td> Payment: </td><td>"+payment+"</td><td> Date: </td><td>"+date+"</td></tr></table>");
-                    			
-                    
-                    			 $("#printRest tr td").css('font-size','12px').css('border', '1px solid #000').css('border-collapse', 'collapse');
-                    			 
-                                 
-                              }
+                     
+                                  $("#printRest tr td").css('font-size','12px').css('border', '1px solid #000').css('border-collapse', 'collapse');
+                                  
+                                  
+                               }
                     		   
                     	    });            
             

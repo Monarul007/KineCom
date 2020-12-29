@@ -1,5 +1,5 @@
 @extends('admin.pos.master')
-        
+@section('title', 'Stock Reports')
 @section('content')
 
 <div class="content-wrapper">
@@ -170,6 +170,10 @@
                 },
                 "columnDefs": [
                     { "orderable": false, "targets": 0 }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
                 ],
                 ajax: {
                 url: '{{ route("reports.stocks") }}',

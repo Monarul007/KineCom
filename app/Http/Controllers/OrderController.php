@@ -96,6 +96,7 @@ class OrderController extends Controller
             $id = $array[$i];
             $order = Order::where('order_number', $id)->first();
             $order->payment_status = "Paid";
+            $order->is_paid = 1;
             $order->save();
         }
         echo "Status Updated";
@@ -156,6 +157,7 @@ class OrderController extends Controller
             $order = Order::where('order_number', $id)->first();
             $order->confirm_date = Date('Y-m-d');
             $order->payment_status = "Paid";
+            $order->is_paid = 1;
             $order->save();
         }
         echo "Status Updated";
@@ -200,6 +202,7 @@ class OrderController extends Controller
             $id = $array[$i];
             $order = Order::where('order_number', $id)->first();
             $order->payment_status = "Paid";
+            $order->is_paid = 1;
             $order->save();
         }
         echo "Status Updated";
@@ -243,6 +246,7 @@ class OrderController extends Controller
             $id = $array[$i];
             $order = Order::where('order_number', $id)->first();
             $order->payment_status = "Paid";
+            $order->is_paid = 1;
             $order->save();
         }
         echo "Status Updated";

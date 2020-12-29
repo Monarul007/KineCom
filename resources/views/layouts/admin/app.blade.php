@@ -4,7 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>House of Brands | Dashboard</title>
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/images/theme/{{$GenSettings->favicon}}">
+  <title>{{$GenSettings->site_name}} | Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -90,7 +92,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="{{asset('dist/img/AdminLTELogo.png')}}" alt="RR World Vision Dashboard" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">RR World Vision</span>
+      <span class="brand-text font-weight-light">{{$GenSettings->site_name}}</span>
     </a>
 
     <!-- Sidebar -->

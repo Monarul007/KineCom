@@ -113,10 +113,10 @@
                         <div class="form-group">
                             <label for="inputBrand">Select Brand</label>
                             <select id="inputBrand" name="inputBrand" class="form-control custom-select">
-                                <?php if($brands != null){ 
-                                    foreach($brands as $brand){ ?>
-                                    <option selected value="<?php echo $brand['id'] ?>"><?php echo $brand['name'] ?> </option>
-                                <?php } }?>
+                                @for ($i = 0; $i < count($bransArray);)
+                                    <option value="{{ $bransArray[$i + 1] }}" {{ $product->brand_id ==$bransArray[$i + 1]?'selected':'' }}>{{ $bransArray[$i] }}</option>
+                                        {{ $i = $i + 2 }}
+                                @endfor
                             </select>
                         </div>
                         <div class="row">
