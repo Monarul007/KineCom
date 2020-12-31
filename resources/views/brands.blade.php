@@ -4,7 +4,7 @@
     <div class="page-banner-section section">
         <div class="page-banner-wrap row row-0 d-flex align-items-center ">
             <!-- Page Banner -->
-            <div class="col-lg-4 col-12 order-lg-2 d-flex align-items-center justify-content-center">
+            <div class="col-12 order-lg-2 d-flex align-items-center justify-content-center">
                 <div class="page-banner">
                     <h1>{{$brands->name}}</h1>
                     <div class="breadcrumb">
@@ -16,18 +16,10 @@
                     </div>
                 </div>
             </div>
-            <!-- Banner -->
-            <div class="col-lg-4 col-md-6 col-12 order-lg-1">
-                <div class="banner"><a href="#"><img src="/images/banner/banner-15.jpg" alt="Banner"></a></div>
-            </div>
-            <!-- Banner -->
-            <div class="col-lg-4 col-md-6 col-12 order-lg-3">
-                <div class="banner"><a href="#"><img src="/images/banner/banner-14.jpg" alt="Banner"></a></div>
-            </div>
         </div>
     </div><!-- Page Banner Section End -->
     <!-- Single Product Section Start -->
-    <div class="product-section section mt-90 mb-90">
+    <div class="product-section section mt-30 mb-90">
         <div class="container">
             <div class="row">
                 <div class="col mb-50">

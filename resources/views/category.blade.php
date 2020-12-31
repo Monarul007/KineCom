@@ -4,7 +4,7 @@
     <div class="page-banner-section section">
         <div class="page-banner-wrap row row-0 d-flex align-items-center ">
             <!-- Page Banner -->
-            <div class="col-lg-4 col-12 order-lg-2 d-flex align-items-center justify-content-center">
+            <div class="col-12 order-lg-2 d-flex align-items-center justify-content-center">
                 <div class="page-banner">
                     <h1>{{$countCat->name}}</h1>
                     <div class="breadcrumb">
@@ -16,32 +16,16 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Banner -->
-            <div class="col-lg-4 col-md-6 col-12 order-lg-1">
-                <div class="banner"><a href="#"><img src="/images/banner/banner-15.jpg" alt="Banner"></a></div>
-            </div>
-
-            <!-- Banner -->
-            <div class="col-lg-4 col-md-6 col-12 order-lg-3">
-                <div class="banner"><a href="#"><img src="/images/banner/banner-14.jpg" alt="Banner"></a></div>
-            </div>
-
         </div>
     </div><!-- Page Banner Section End -->
 
     <!-- Single Product Section Start -->
-    <div class="product-section section mt-90 mb-90">
+    <div class="product-section section mt-30 mb-90">
         <div class="container">
-            <div class="row">
-                <div class="col mb-50">
-                    <div class="category-page-title"><h4>CATEGORIES - {{$countCat->name}}</h4></div>
-                </div>
-            </div>
             <div class="row">
                 @if($productDatas->count() > 0)
                     @foreach($productDatas as $product)
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12 pb-30 pt-10">
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-12 pb-1 pr-1 pl-1 pt-1">
                             <!-- Product Start -->
                             <div class="ee-product">
                                 <!-- Image -->
@@ -100,33 +84,5 @@
             </div>
         </div>
     </div><!-- Single Product Section End -->
-<script>
-    $(document).ready(function(){
-        $("body").on("click", "a.add-to-cart", function () {
-            var id = $(this).data('id');
-            var formData = new FormData();
-            formData.append('id', id);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: "/ajaxCart",
-                method: 'post',
-                data: formData,
-                contentType: false,
-                cache: false,
-                processData: false,
-                dataType: "json",
-                success: function (data) {
-                    $(this).addClass("added");
-                },
-                error: function(ts) {
-                    alert(ts.responseText);
-                },
-            });
-        });
-    });
-</script>
+
 @endsection

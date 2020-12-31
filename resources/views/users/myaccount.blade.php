@@ -20,7 +20,7 @@
 
     <!-- Account Details Section -->
     <div class="cs-account section mt-50 mb-50">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row mb-5">
 				<div class="col-lg-3 p1 pr-1 mb-30">
                     <div class="card bg-gray p-3">

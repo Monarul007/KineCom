@@ -4,7 +4,7 @@
     <div class="page-banner-section section">
         <div class="page-banner-wrap row row-0 d-flex align-items-center ">
             <!-- Page Banner -->
-            <div class="col-lg-4 col-12 order-lg-2 d-flex align-items-center justify-content-center">
+            <div class="col-12 order-lg-2 d-flex align-items-center justify-content-center">
                 <div class="page-banner">
                     <h1>Cart</h1>
                     <div class="breadcrumb">
@@ -16,21 +16,11 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Banner -->
-            <div class="col-lg-4 col-md-6 col-12 order-lg-1">
-                <div class="banner"><a href="#"><img src="/images/banner/banner-15.jpg" alt="Banner"></a></div>
-            </div>
-
-            <!-- Banner -->
-            <div class="col-lg-4 col-md-6 col-12 order-lg-3">
-                <div class="banner"><a href="#"><img src="/images/banner/banner-14.jpg" alt="Banner"></a></div>
-            </div>
         </div>
     </div><!-- Page Banner Section End -->
     <!-- Cart Page Start -->
-    <div class="page-section section pt-90 pb-50">
-        <div class="container-fluid">
+    <div class="page-section section pt-30 pb-50">
+        <div class="container">
             @if ($success = Session::get('flash_message_success'))
                 <div class="alert alert-success alert-block">
                     <button type="button" class="close" data-dismiss="alert">×</button>
@@ -45,10 +35,10 @@
             @endif
             <div class="alert alert-success alert-block" id="CartMsg" style="display:none;"></div>
             <div class="row">
-                <div class="col-md-8">
-                    <form action="#">				
+                <div class="col-md-8 p-0">
+                    <div class="table-responsive">				
                         <!-- Cart Table -->
-                        <div class="cart-table table-sm table-responsive mb-40">
+                        <div class="cart-table table-sm mb-40">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -85,7 +75,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-15">

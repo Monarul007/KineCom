@@ -178,6 +178,10 @@
                 "columnDefs": [
                     { "orderable": false, "targets": 0 }
                 ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 "pageLength": 50,
                 "footerCallback": function ( row, data, start, end, display ) {
                     var api = this.api(), data;

@@ -2,7 +2,7 @@
 @section('content')
     <!-- Hero Section Start -->
     <div class="hero-section section">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col">
                     <!-- Header Category -->
@@ -52,7 +52,7 @@
 
     <!-- Feature Product Section Start -->
     <div class="categories section mt-50 mb-40">
-        <div class="container-fluid">
+        <div class="container">
             <div class="col-12 mb-20">
                 <div class="section-title-one" data-title="FEATURED ITEMS"><h1>BROWSE CATEGORIES</h1></div>
             </div><!-- Section Title End -->
@@ -84,9 +84,32 @@
         </div>
     </div><!-- Feature Product Section End -->
 
+    <!-- Mobile Categories -->
+    <div class="mobile_category_part section d-none">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <ul><li class="mobile_category_item text-center"><a href="https://eorange.shop/new-arrivals"><span><img src="https://eorange.shop/assets/front/images/aside_svg/new.svg"></span>New Arrivals
+                        </a></li> <li class="mobile_category_item text-center"><a href="https://eorange.shop/product-request"><span><img src="https://eorange.shop/assets/front/images/aside_svg/shop.svg"></span>
+                           Product Request
+                        </a></li> <li class="mobile_category_item text-center"><a href="https://eorange.shop/premium/chinabasket"><span><img src="https://eorange.shop/assets/front/images/aside_svg/deal.svg"></span>
+                             Mega Deal
+                        </a></li> <li class="mobile_category_item text-center"><a href="https://eorange.shop/premium/frozen-fresh"><span><img src="https://eorange.shop/assets/front/images/aside_svg/gift.svg"></span>
+                            Frozen &amp; Fresh
+                        </a></li> <li class="mobile_category_item text-center"><a href="https://eorange.shop/premium/gift-voucher"><span><img src="https://eorange.shop/assets/front/images/aside_svg/v.svg"></span>
+                           Orange Voucher
+                        </a></li> <li class="mobile_category_item text-center"><a href="https://eorange.shop/premium/exclusive-offer"><span><img src="https://eorange.shop/assets/front/images/aside_svg/discount.svg"></span>
+                            Exclusive Offer
+                        </a></li> <li class="mobile_category_item text-center"><a href="https://eorange.shop/category/orange-grocery"><span><img src="https://eorange.shop/assets/front/images/aside_svg/sale.svg"></span>
+                            Orange Grocery
+                        </a></li> <li class="mobile_category_item text-center"><a href="https://eorange.shop/premium/fishandmeat"><span><img src="https://eorange.shop/assets/front/images/aside_svg/meat.svg"></span>
+                            Fish &amp; Meat
+                        </a></li></ul></div></div></div></div>
+    <!-- Mobile Categories -->
+
     <!-- Feature Product Section Start -->
     <div class="product-section section mt-50 mb-40">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <!-- Section Title Start -->
                 <div class="col-12 mb-20">
@@ -153,7 +176,7 @@
 
     <!-- Most Popular Product Section Start -->
     <!-- <div class="product-section section mb-40">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-12 mb-20">
                     <div class="section-title-one" data-title="FEATURED ITEMS"><h1>MOST POPULAR PRODUCT</h1></div>
@@ -220,7 +243,7 @@
 
     <!-- Feature Product Section Start -->
     <div class="product-section section mb-70">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <!-- Section Title Start -->
                 <div class="col-12 mb-40">
@@ -260,7 +283,7 @@
     </div><!-- Feature Product Section End -->
 
     <div class="collection section mb-80">
-        <div class="container-fluid">
+        <div class="container">
             <div class="col-12 mb-20">
                 <div class="section-title-one" data-title="FACE MASKS"><h1>SEE MORE PRODUCTS</h1></div>
             </div>
@@ -290,7 +313,7 @@
 
     <!-- Indivisual collection -->
     <!-- <div class="collection section mb-80">
-        <div class="container-fluid">
+        <div class="container">
             <div class="col-12 mb-20">
                 <div class="section-title-one" data-title="BEST DEALS"><h1>WOMEN'S FASHION</h1></div>
             </div>
@@ -386,7 +409,7 @@
 
     <!-- Indivisual collection -->
     <div class="vv-section section pt-50 pb-50 bg-light">
-        <div class="container-fluid">
+        <div class="container">
             <div class="col-12">
                 <div class="row">
                     <div class="col-md-3 p-0">
@@ -431,31 +454,6 @@
     <!-- Indivisual collection eND-->
 <script>
 $(document).ready(function(){
-    $("body").on("click", "a.add-to-cart", function () {
-        var id = $(this).data('id');
-        var formData = new FormData();
-        formData.append('id', id);
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: "/ajaxCart",
-            method: 'post',
-            data: formData,
-            contentType: false,
-            cache: false,
-            processData: false,
-            dataType: "json",
-            success: function (data) {
-                $(this).addClass("added");
-            },
-            error: function(ts) {
-                alert(ts.responseText);
-            },
-        });
-    });
     
     ///// Load More Section  
     var formData = new FormData();

@@ -3,7 +3,7 @@
 
     <!-- Product Section Start -->
     <div class="product-section section mb-40">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-xl-9 col-lg-8 col-12 order-lg-2 mb-50">
                     <div class="row mb-10">

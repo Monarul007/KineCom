@@ -410,23 +410,34 @@ class PosPurchaseController extends Controller
     }
     
     public function get_purchase_report_date(Request $req){
-        
-        $stdate = $req['stdate'];
-        
-        $enddate = $req['enddate'];
+        $stdate = $req['from_date'];
+        $enddate = $req['to_date'];
+
+        if(!$stdate){
+            $stdate = date('Y-m-d', strtotime('-1 day'));
+        }
+        if(!$enddate){
+            $enddate = date('Y-m-d', strtotime('+1 day'));
+        }
         
         $purchase = DB::table('purchase_primary')->join('suppliers', 'purchase_primary.sid', 'suppliers.id')->whereBetween('date', [$stdate, $enddate])->get();
         
-        $trow = "";
+        return DataTables()->of($purchase)
+        ->addIndexColumn()
+        ->addColumn('action', function($row){
+            $action = '<a data-id='.$row->pur_inv.' title="View Details" href="#" class="view mr-2"><span class="btn btn-xs btn-info"><i class="mdi mdi-eye"></i></span></a>
+            <a data-id='.$row->pur_inv.' title="Delete" href="#" class="delete"><span class="btn btn-xs btn-danger"><i class="mdi mdi-delete"></i></span></a>';
+            return $action;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
         
-        foreach($purchase as $pur){
-            $trow .= "<tr><td>".$pur->date."</td><td class='purinv'>".$pur->pur_inv."</td><td>".$pur->name."</td><td class='supp_invoice'>".$pur->supp_inv."</td><td>".$pur->discount."</td>
-            <td>".$pur->amount."</td><td>".$pur->payment."</td><td>".$pur->total."</td>
-            <td><a title='Details' href='#' class='view mr-2'><span class='btn btn-xs btn-info'><i class='mdi mdi-eye'></i></span></a> <a title='Delete' href='#' class='delete'><span class='btn btn-xs btn-danger'><i class='mdi mdi-delete'></i></span></a></td>
-            </tr>";
-        }
-        
-        return $trow;
+        // foreach($purchase as $pur){
+        //     $trow .= "<tr><td>".$pur->date."</td><td class='purinv'>".$pur->pur_inv."</td><td>".$pur->name."</td><td class='supp_invoice'>".$pur->supp_inv."</td><td>".$pur->discount."</td>
+        //     <td>".$pur->amount."</td><td>".$pur->payment."</td><td>".$pur->total."</td>
+        //     <td><a title='Details' href='#' class='view mr-2'><span class='btn btn-xs btn-info'><i class='mdi mdi-eye'></i></span></a> <a title='Delete' href='#' class='delete'><span class='btn btn-xs btn-danger'><i class='mdi mdi-delete'></i></span></a></td>
+        //     </tr>";
+        // }
     }
     
     public function delete_purchase(Request $req){

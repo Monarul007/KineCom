@@ -29,6 +29,7 @@ Route::get('/brands/{url}', 'PagesController@brands')->name('brands');
 Route::get('/get-product-price', 'ProductsController@productPrice')->name('get-product-price');
 Route::match(['get','post'],'/add-cart','ProductsController@addtoCart')->name('add-cart');
 Route::match(['get','post'],'/ajaxCart','ProductsController@ajaxCart')->name('ajax-cart');
+Route::match(['get','post'],'/ajax2Cart','ProductsController@ajaxAdd2Cart')->name('ajax-cart2');
 Route::match(['get','post'],'/cart','ProductsController@cart')->name('cart');
 Route::get('/cart/delete-product/{id}','ProductsController@deleteCartProduct')->name('deleteCartProduct');
 Route::get('/cart/update-cart','ProductsController@updateCartProduct')->name('updateCartProduct');
@@ -246,7 +247,7 @@ Route::post('/dashboard/save_purchase_return', 'PosPurchaseController@save_purch
 
 Route::get('/dashboard/purchase_report_date', 'PosPurchaseController@purchase_report_date')->name('purchase_report_date')->middleware('auth');
 
-Route::post('/dashboard/get_purchase_report_date', 'PosPurchaseController@get_purchase_report_date')->name('get_purchase_report_date')->middleware('auth');
+Route::match(['get','post'],'/dashboard/get_purchase_report_date', 'PosPurchaseController@get_purchase_report_date')->name('get_purchase_report_date')->middleware('auth');
 
 Route::post('/dashboard/delete_purchase', 'PosPurchaseController@delete_purchase')->name('delete_purchase')->middleware('auth');
 

@@ -146,7 +146,7 @@ class IndexController extends Controller
             ->join('categories', 'products.cat_id', '=', 'categories.id')->where('cat_id',$pcatid)->limit(12)->get();
 
             $productsArrayDiv ='<div class="collection section mb-30">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="col-12 mb-20">
                     <div class="section-title-one" data-title="'.$pcat->name.'"><h1>'.$pcat->name.'</h1></div>
                 </div>';
@@ -210,7 +210,7 @@ class IndexController extends Controller
                 $productsArrayDiv .= '</div></div>';
 
                 $productsArrayDiv .= '<div class="col-12 mt-50 mb-50">';
-                $productsArrayDiv .= '<a href="/category/'.$pcat->url.'" class="btn btn-medium btn-circle bg-warning m-auto">Browse All Products</a>';
+                $productsArrayDiv .= '<a href="/category/'.$pcat->url.'" class="btn btn-medium btn-circle float-right bg-warning m-auto">Browse All Products</a>';
                 $productsArrayDiv .= '</div>';
 
             $productsArrayDiv .= '</div></div>';
@@ -258,7 +258,7 @@ class IndexController extends Controller
         $prod_array = array();
         $i = 1;
                     
-        foreach($products as $prod){  
+        foreach($products as $prod){
             $id = $prod->id;
             $name = $prod->name;
             $bprice = $prod->before_price;

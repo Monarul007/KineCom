@@ -21,7 +21,7 @@
 
     <!-- Single Product Section Start -->
     <div class="product-section section mt-20 mb-90">
-        <div class="container-fluid">
+        <div class="container">
                     @if ($error = Session::get('flash_message_error'))
                         <div class="alert alert-danger alert-block">
                             <button type="button" class="close" data-dismiss="alert">×</button>
@@ -76,6 +76,7 @@
                                         <a href="/category/{{$singleProduct->url}}" class="cat">{{$singleProduct->catname}}</a>
                                         <h5 class="title">{{$singleProduct->product_name}}</h5>
                                     </div>
+                                    <br>
                                     @if($singleProduct->after_pprice)
                                     <h5 class="price">BDT-{{$singleProduct->after_pprice}}</h5>
                                     @else
@@ -117,7 +118,8 @@
 
                                     <div class="actions">
                                         @if($totalStock>0)
-                                        <input type="submit" value="ADD TO CART" class="text-danger position-relative btn btn-medium btn-circle mr-30 mb-30" style="float: left;margin-right: 15px">
+                                        <!-- <input type="submit" value="ADD TO CART" class="text-danger position-relative btn btn-medium btn-circle mr-30 mb-30" style="float: left;margin-right: 15px"> -->
+                                        <a href="/products/{{$singleProduct->id}}" data-id="{{$singleProduct->id}}" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
                                         @else
                                         <a class="text-danger position-relative btn btn-medium btn-circle mr-30 mb-30" style="float: left;margin-right: 15px">Out of stock</a>
                                         @endif
@@ -311,7 +313,7 @@
 
     <!-- Related Product Section Start -->
     <div class="product-section section mb-70">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <!-- Section Title Start -->
                 <div class="col-12 mb-40">
@@ -345,8 +347,8 @@
                                     <div class="content">
                                         <!-- Category & Title -->
                                         <div class="category-title">
-                                            <a href="#" class="cat">{{$product->catname}}</a>
-                                            <h5 class="title"><a href="/products/{{$product->id}}">{{$product->name}}</a></h5>
+                                            <a href="#" class="cat">{{$product->category->name}}</a>
+                                            <h5 class="title"><a href="/products/{{$product->id}}">{{$product->product_name}}</a></h5>
                                         </div>
                                         <!-- Price & Ratting -->
                                         <div class="price-ratting">
@@ -379,33 +381,4 @@
         </div>
     </div><!-- Related Product Section End -->
 
-<script>
-    $(document).ready(function(){
-        $("body").on("click", "a.add-to-cart", function () {
-            var id = $(this).data('id');
-            var formData = new FormData();
-            formData.append('id', id);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: "/ajaxCart",
-                method: 'post',
-                data: formData,
-                contentType: false,
-                cache: false,
-                processData: false,
-                dataType: "json",
-                success: function (data) {
-                    $(this).addClass("added");
-                },
-                error: function(ts) {
-                    alert(ts.responseText);
-                },
-            });
-        });
-    });
-</script>
 @endsection

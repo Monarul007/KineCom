@@ -11,7 +11,9 @@ use App\Brands;
 use App\ProductAttributes;
 use App\ProductImages;
 use App\Coupon;
+use Illuminate\Support\Facades\Auth;
 use Session;
+use User;
 
 class ProductsController extends Controller
 {
@@ -32,6 +34,10 @@ class ProductsController extends Controller
             if(empty($barcode)){
                 $barcode = $code+1;
             }
+            $product_code = $request->inputCode;
+            if(empty($product_code)){
+                $product_code = Str::random(10);
+            }
 
             $data = $request->all();
             $product = new Products;
@@ -45,7 +51,7 @@ class ProductsController extends Controller
             $product->before_price = $data['inputPrice'];
             $product->after_pprice = $data['DiscountPrice'];
             $product->barcode = $barcode;
-            $product->product_code = $data['inputCode'];
+            $product->product_code = $product_code;
             $product->product_size = $data['inputSize'];
             $product->sku = $data['inputSKU'];
             $product->stock = $data['inputStock'];
@@ -222,7 +228,12 @@ class ProductsController extends Controller
         ->first();
         $subStrSpecs = substr($singleProduct->product_specs, 24, 300);
         $totalStock = Products::where('id',$id)->sum('stock');
-        $relatedProducts = Products::where('id', '!=', $id)->where(['cat_id' => $singleProduct->cat_id])->get();
+        $related = Products::where('id', '!=', $id)->where(['cat_id' => $singleProduct->cat_id])->get();
+        if($related->count() > 6){
+            $relatedProducts = Products::where('id', '!=', $id)->where(['cat_id' => $singleProduct->cat_id])->get();
+        }else{
+            $relatedProducts = Products::where('id', '!=', $id)->inRandomOrder()->get();
+        }
         return view('single-product')->with(compact('singleProduct','subStrSpecs','totalStock','relatedProducts'));
     }
 
@@ -262,7 +273,7 @@ class ProductsController extends Controller
             Session::put('session_id',$session_id);
         }
 
-        $countProducts = DB::table('cart')->select('product_code')->where(['product_id'=>$data['inputId'],'product_name'=>$data['inputName'],'session_id'=>$session_id])->count();
+        $countProducts = DB::table('cart')->select('quantity')->where(['product_id'=>$data['inputId'],'product_name'=>$data['inputName'],'session_id'=>$session_id])->count();
         if($countProducts>0){
             return "This Product Already Added to Cart!";
         }else{
@@ -270,6 +281,40 @@ class ProductsController extends Controller
         }
 
         echo "Product added to cart successfully!!!";
+    }
+
+    public function ajaxAdd2Cart(Request $request){
+        $id = $request['id'];
+        $product = Products::where('id',$id)->first();
+        $price = $product->after_pprice;
+        $image = $product->product_img;
+        if(empty($image)){
+            $image = "no-image.jpg";
+        }
+        if($price == ''){
+            $price = $product->before_price;
+        }
+        if(!$product) {
+            abort(404);
+        }
+        $code = $product->product_code;
+        if(empty($code)){
+            $code = '';
+        }
+        $email = '';
+        $session_id = Session::get('session_id');
+        if(empty($session_id)){
+            $session_id = Str::random(40);
+            Session::put('session_id',$session_id);
+        }
+        $countProducts = DB::table('cart')->select('quantity')->where('product_id',$product->id)->where('session_id',$session_id)->count();
+        // if cart is empty then this the first product
+        if($countProducts>0) {
+            return "This Product Already Added to Cart!";
+        }else{
+            DB::table('cart')->insert(['product_id'=>$product->id,'product_name'=>$product->product_name,'image'=>$image,'product_code'=>$product->product_code,'product_color'=>$product->product_color,'price'=>$price,'weight'=>$product->product_size,'quantity'=>1,'user_email'=>$email,'session_id'=>$session_id,'created_at'=>NOW()]);
+        }
+        return $id;
     }
 
     public function addtoCart(Request $request){

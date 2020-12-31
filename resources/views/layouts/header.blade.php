@@ -66,7 +66,7 @@
     <div class="header-section section">
         <!-- Header Top Start -->
         <div class="header-top header-top-one header-top-border pt-10 pb-10">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row align-items-center justify-content-between">
     
                     <div class="col mt-10 mb-10 m-none">
@@ -108,7 +108,7 @@
     
         <!-- Header Bottom Start -->
         <div class="header-bottom header-bottom-one header-sticky m-none">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row align-items-center justify-content-between">
                     <div class="col mt-15 mb-15">
                         <!-- Logo Start -->
@@ -215,86 +215,140 @@
 
     @include('layouts.footer')
 
-<script>
-    var input = $("input[name=q]");
-    input.focusin(function() {
-        $(".header-advance-search").addClass("valid");
-        $(".prod_list_div").show();
-    });
-    input.focusout(function() {
-        $(".header-advance-search").removeClass("valid");
-        // $(".prod_list_div").hide();
-    });
-
-    $(document).ready(function(){
-        $(".search_products").keyup(function(e){
-            if(e.which == 40 || e.which == 38){
-                $(".search_products").blur();
-                $('.product-list').find("li:first").focus().addClass('active').siblings().removeClass();
-                $('.product-list').on('focus', 'li', function() {
-                    $this = $(this);
-                    $this.addClass('active').siblings().removeClass();
-                    $this.closest('.product-list').scrollTop($this.index* $this.outerHeight());
-                });
-                $('.product-list').on('keydown', 'li', function(e) {
-                    $this = $(this);
-                    if (e.keyCode == 40) {            
-                        $this.next().focus();
-                        return false;
-                    } else if (e.keyCode == 38) {        
-                        $this.prev().focus();
-                        return false;
-                    }
-                });
-                $('.product-list').on('keyup', function(e){
-                    if(e.which == 13){
-                        var val = $(".active").attr("data-pname");
-                        $('.search_products').val(val);
-                        $(".search_products").focus();
-                        $(".prod_list_div").hide();
-                    }
-                });         
-                return false;
+<script>  
+$(document).ready(function(){
+    $("body").on("click", "a.add-to-cart", function () {
+        var id = $(this).data('id');
+        var formData = new FormData();
+        formData.append('id', id);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-                        
-            var s_text = $(this).val();	
-            if(s_text == ''){
-                $('.prod_list_div').hide();
-                return false;
-            }
-                        
-            var formData = new FormData();
-            formData.append('s_text', s_text);	
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-                        
-            $.ajax({
-                url: "{{ URL::route('get_product') }}",
-                method: 'post',
-                data: formData,
-                contentType: false,
-                cache: false,
-                processData: false,
-                dataType: "json",
-                beforeSend: function(){
-                    //$("#wait").show();
-                },
-                error: function(ts) {    
-                    $('.prod_list_div').show();
-                    $('.prod_list_div').html(ts.responseText);
-                    //alert(ts.responseText);
-                },
-                success: function(data){
-                    //var str = JSON.stringify(data, null, 4)
-                    //var obj = JSON.parse(str);
-                    //alert(data);
-                }   
-            });
+        });
+        $.ajax({
+            url: "/ajax2Cart",
+            method: 'post',
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            dataType: "json",
+            success: function (data) {
+                alert(data.responseText);
+            },
+            error: function(ts) {
+                alert(ts.responseText);
+                $(this).addClass("added");
+                $(".mini-cart-wrap").addClass("open");
+                $(".cart-overlay").addClass("visible");
+            },
         });
     });
+    // load_product();
+    // load_cart_data();
+        
+    // function load_product(){
+    //     $.ajax({
+    //         url:"fetch_item.php",
+    //         method:"POST",
+    //         success:function(data){
+    //             $('#display_item').html(data);
+    //         }
+    //     });
+    // }
+
+    // function load_cart_data(){
+    //     $.ajax({
+    //         url:"fetch_cart.php",
+    //         method:"POST",
+    //         success:function(data){
+    //             $('#shopping_cart').html(data);
+    //         }
+    //     });
+    // }
+
+    // $(document).on('click', '.select_product', function(){
+    //     var product_id = $(this).data('product_id');
+    //     if($(this).prop('checked') == true){
+    //         $('#product_'+product_id).css('background-color', '#f1f1f1');
+    //         $('#product_'+product_id).css('border-color', '#333');
+    //     }
+    //     else{
+    //         $('#product_'+product_id).css('background-color', 'transparent');
+    //         $('#product_'+product_id).css('border-color', '#ccc');
+    //     }
+    // });
+
+    // $('#add_to_cart').click(function(){
+    //     var product_id = [];
+    //     var product_name = [];
+    //     var product_price = [];
+    //     var action = "add";
+    //     $('.select_product').each(function(){
+    //         if($(this).prop('checked') == true){
+    //             product_id.push($(this).data('product_id'));
+    //             product_name.push($(this).data('product_name'));
+    //             product_price.push($(this).data('product_price'));
+    //         }
+    //     });
+
+    //     if(product_id.length > 0){
+    //         $.ajax({
+    //             url:"action.php",
+    //             method:"POST",
+    //             data:{product_id:product_id, product_name:product_name, product_price:product_price, action:action},
+    //             success:function(data){
+    //                 $('.select_product').each(function(){
+    //                     if($(this).prop('checked') == true){
+    //                         $(this).attr('checked', false);
+    //                         var temp_product_id = $(this).data('product_id');
+    //                         $('#product_'+temp_product_id).css('background-color', 'transparent');
+    //                         $('#product_'+temp_product_id).css('border-color', '#ccc');
+    //                     }
+    //                 });
+
+    //                 load_cart_data();
+    //                 alert("Item has been Added into Cart");
+    //             }
+    //         });
+    //     }else{
+    //         alert('Select atleast one item');
+    //     }
+    // });
+
+    // $(document).on('click', '.delete', function(){
+    //     var product_id = $(this).attr("id");
+    //     var action = 'remove';
+    //     if(confirm("Are you sure you want to remove this product?")){
+    //         $.ajax({
+    //             url:"action.php",
+    //             method:"POST",
+    //             data:{product_id:product_id, action:action},
+    //             success:function(){
+    //                 load_cart_data();
+    //                 alert("Item has been removed from Cart");
+    //             }
+    //         })
+    //     }else{
+    //         return false;
+    //     }
+    // });
+
+    // $(document).on('click', '#clear_cart', function(){
+    //     var action = 'empty';
+    //     $.ajax({
+    //         url:"action.php",
+    //         method:"POST",
+    //         data:{action:action},
+    //         success:function(){
+    //             load_cart_data();
+    //             alert("Your Cart has been clear");
+    //         }
+    //     });
+    // });
+});
+
 </script>
 </body>
 </html>

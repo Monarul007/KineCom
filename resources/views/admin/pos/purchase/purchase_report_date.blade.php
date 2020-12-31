@@ -3,52 +3,74 @@
 @section('content')
 
 <div class="content-wrapper">
-    <div class="row">
-      <div class="col-12">
-             <div class="card">
-                <div class="card-header">
-                    <h3>Purchase Report</h3>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Purchase Report By Date</h1>
                 </div>
-                <div class="card-body custom-table">
-                    <form action="get_purchase_report_date" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-2">
-                                <label>Date From</label>
-                            </div>
-                            <div class="col-2">
-                                <input type="text" class="form-control" name="stdate" id="stdate">
-                            </div>
-                            <div class="col-2">
-                                <label>Date To</label>
-                            </div>
-                            <div class="col-2">
-                                <input type="text" class="form-control" name="enddate" id="enddate">
-                            </div>
-                            <div class="col-2">
-                                <input type="submit" class="btn btn-success btn-lg" id="search" value="Search">
-                            </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/dashboard/pos">POS</a></li>
+                    <li class="breadcrumb-item active">Purchase Reports</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row input-daterange mb-3">
+                        <div class="col-md-3">
+                            <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date">
                         </div>
-                    </form>
-                    
-                    
-                        
-                    <table class="custom-table purchase-table" style="display:none;">
-                        <tr><th>Date</th><th>Invoice</th><th>Supplier</th><th>Supp Invocie</th><th>Discount</th><th>Amount</th><th>Payment</th><th>Total</th><th>Action</th></tr>
-                        
-                    </table>
-                        
-                    
-                    
+                        <div class="col-md-3">
+                            <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
+                            <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Purchase Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="reports" class="table table-sm table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Invoice</th>
+                                        <th>Supplier</th>
+                                        <th>Supp Invocie</th>
+                                        <th>Discount</th>
+                                        <th>Amount</th>
+                                        <th>Payment</th>
+                                        <th>Total</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        
+                                </tbody>
+                                <tfoot align="right">
+                                    <tr>
+                                        <th colspan="5">Total Amount</th>
+                                        <th></th>
+                                        <th>Total Paid</th>
+                                        <th colspan="2"></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-             </div>
-      </div>
-    </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
     
     <div class="row pos_div" style="position: absolute; top: 10px;width: 60%; margin: 0 auto; background: #FFF; height:600px; overflow-y:auto; padding: 10px; z-index: 999999; display: none;">
-        
         <div class="col-12" style="position:relative">
-            
             <button class="btn btn-primary close" style="position:absolute; top: 10px; right: 10px;">X</button>
             
             <!-------------------------------->
@@ -136,58 +158,94 @@
 
     $(document).ready(function(){
         
-        $( function() {
-            $( "#stdate" ).datepicker({dateFormat: 'yy-mm-dd' });
-        } );
-        
-        $( function() {
-            $( "#enddate" ).datepicker({dateFormat: 'yy-mm-dd' });
-        } );
-        
-        
-        $('#search').on('click', function(e){
-            
-            e.preventDefault();
-            
-            var stdate = $('#stdate').val();
-            var enddate = $('#enddate').val();
-        			
-        	var formData = new FormData();
-        	    formData.append('stdate', stdate);
-        	    formData.append('enddate', enddate);
-        			
-        	    $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-        			
-                $.ajax({
-            		  url: "{{ URL::route('get_purchase_report_date') }}",
-                      method: 'post',
-                      data: formData,
-                      contentType: false,
-                      cache: false,
-                      processData: false,
-                      dataType: "json",
-            		  beforeSend: function(){
-                			//$("#wait").show();
-                		},
-            		  error: function(ts) {
-                          $('.purchase-table').show();
-                          $('.purchase-table td').remove();
-                          $('.purchase-table tr:last').after(ts.responseText);
-                          
-                          //alert(ts.responseText)
-                      },
-                      success: function(data){
-                         
-                          alert(data);
-                      }
-            		   
-                }); 
+        $( "#from_date").datepicker({
+            dateFormat: 'yy-mm-dd'
         });
+        $( "#to_date").datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+        load_data ();
+        function load_data(from_date = '', to_date = ''){
+            $("#reports").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "precessing": true,
+                "serverSide": true,
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                "pageLength": 50,
+                "footerCallback": function ( row, data, start, end, display ) {
+                    var api = this.api(), data;
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
         
+                    // Total over all pages
+                    total = api
+                        .column( 5 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+
+                    // Payment Total
+                    payTotal = api
+                        .column( 7 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+        
+                    // Update footer
+                    $( api.column( 5 ).footer() ).html(
+                        'TK-'+ total
+                    );
+                    $( api.column( 7 ).footer() ).html(
+                        'TK-'+ payTotal
+                    );
+                },
+                ajax: {
+                    url: '{{ route("get_purchase_report_date") }}',
+                    data:{from_date:from_date, to_date:to_date},
+                },
+                columns: [
+                    {data:'date',},
+                    {data:'pur_inv',},
+                    {data:'name',},
+                    {data:'supp_inv',},
+                    {data:'discount',},
+                    {data:'amount',},
+                    {data:'payment',},
+                    {data:'total',},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ]
+            });
+        }
+        $('#filter').click(function(){
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+            if(from_date != '' &&  to_date != ''){
+                $('#reports').DataTable().destroy();
+                load_data(from_date, to_date);
+            }
+            else{alert('Both Date is required');}
+        });
+        $('#refresh').click(function(){
+            $('#from_date').val('');
+            $('#to_date').val('');
+            $('#reports').DataTable().destroy();
+            load_data();
+        });
         
         $('body').on('click', '.delete', function(){
             
@@ -231,13 +289,11 @@
             }
             
         });
-        
                 
         $('body').on('click', '.view', function(){
             
-            
                         // var s_text = $(this).find('.purinv').html();
-                        var s_text = $(this).closest('tr').find('.purinv').html();
+                        var s_text = $(this).data("id");
                 			
                 		var formData = new FormData();
                 			formData.append('s_text', s_text);
@@ -390,262 +446,3 @@
 </script>
 
 @stop
-
-<style>
-
-
-        .custom-modal{
-            position: fixed; 
-            left: 0; 
-            top: 50px; 
-            width: 100%; 
-            height: 100%; 
-            background-color: #e6e6e6; 
-            z-index:999; 
-            display: none;
-        }
-        
-        #printRest{
-            width: 330px;
-        }
-        
-        #printRest tr td{
-            font-size: 12px;
-            border: 1px solid #000;
-        }
-        
-        .sugg-list {
-            width: 100%;
-            background-color: #e6e6e6;
-            padding: 0;
-        }
-        
-        .sugg-list li{
-            width: 100%;
-            border-bottom: #FFF;
-            color: #6a6a6a;
-            list-style-type: none;
-            padding: 5px;
-        }
-        
-        .sugg-list li:hover{
-            width: 100%;
-            background-color: #006fd2;
-            color: #FFF;
-            padding: 0;
-        }
-    
-        .custom-table{
-
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .custom-table tr th{
-            background-color: #1bcfb4;
-            color: #FFF;
-            text-align: center;
-            padding: 5px;
-        }
-        
-        .custom-table tr td{
-            padding: 5px;
-            border: 1px solid #e6e6e6;
-            text-align: center;
-            font-size: 14px;
-        }
-        
-        .custom-text{
-            
-            width: 150px;
-            border: 1px solid #e6e6e6;
-            border-radius: 2px;
-            outline: none;
-            padding: 5px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-        
-        .custom-text:focus{
-            border-color: dodgerBlue;
-        }
-
-        .card .card-body {
-            padding: 0.5rem 0.5rem !important;
-        }
-        
-        .content-wrapper {
-            
-            padding: 0.25rem 0.25rem !important;
-        }
-    
-        .box-body {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 3px;
-            border-bottom-left-radius: 3px;
-            padding: 10px;
-            background-color: #FFF;
-        }
-        
-        .box.box-success {
-            border-top-color: #6da252;
-        }
-        
-        .input-group .input-group-addon {
-            border-radius: 0;
-            border-color: #d2d6de;
-            background-color: #fff;
-        }
-        .input-group-addon:first-child {
-            border-right: 0;
-                border-right-color: currentcolor;
-        }
-        .input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn-group:not(:last-child) > .btn, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-        .input-group-addon {
-            min-width: 41px;
-        }
-        .input-group-addon {
-            padding: 6px 12px;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1;
-            color: #555;
-            text-align: center;
-            background-color: #eee;
-            border: 1px solid #ccc;
-            border-top-color: rgb(204, 204, 204);
-            border-right-color: rgb(204, 204, 204);
-            border-right-style: solid;
-            border-right-width: 1px;
-            border-bottom-color: rgb(204, 204, 204);
-            border-left-color: rgb(204, 204, 204);
-            border-radius: 4px;
-        }
-        .input-group-addon, .input-group-btn {
-            width: 1%;
-            white-space: nowrap;
-            vertical-align: middle;
-        }
-        .input-group .form-control, .input-group-addon, .input-group-btn {
-            display: table-cell;
-        }
-        
-        .select2-hidden-accessible {
-            border: 0 !important;
-            clip: rect(0 0 0 0) !important;
-            height: 1px !important;
-            margin: -1px !important;
-            overflow: hidden !important;
-            padding: 0 !important;
-            position: absolute !important;
-            width: 1px !important;
-        }
-        
-        .input-group-btn > .btn {
-            position: relative;
-        }
-        
-        .btn-icon {
-            height: 34px;
-        }
-        
-        .form-group .select2-container {
-            width: 100% !important;
-        }
-        
-        .select2-container {
-            box-sizing: border-box;
-            display: inline-block;
-            margin: 0;
-            position: relative;
-            vertical-align: middle;
-        }
-        
-        .form-group .select2-container .select2-selection--single {
-            height: 34px;
-            border: 1px solid #d2d6de;
-        }
-        .form-group .select2-container--default .select2-selection--single {
-            border-radius: 0px;
-        }
-        
-        .select2-container .select2-selection--single {
-            box-sizing: border-box;
-            cursor: pointer;
-            display: block;
-            height: 28px;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        .select2-container--default .select2-selection--single, .select2-selection .select2-selection--single {
-            border: 1px solid #d2d6de;
-            border-radius: 0;
-            padding: 6px 12px;
-            height: 34px;
-        }
-        
-        .form-group .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 30px;
-        }
-        
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 26px;
-            position: absolute;
-            top: 1px;
-            right: 1px;
-            width: 20px;
-        }
-        
-        .form-group .select2-container--default .select2-selection--single .select2-selection__arrow b {
-            border-color: #555 transparent transparent transparent;
-        }
-        
-        .select2-container--default .select2-selection--single .select2-selection__arrow b {
-            border-color: #888 transparent transparent transparent;
-            border-style: solid;
-            border-width: 5px 4px 0 4px;
-            height: 0;
-            left: 50%;
-            margin-left: -4px;
-            margin-top: -2px;
-            position: absolute;
-            top: 50%;
-            width: 0;
-        }
-        
-        .active{
-            color: #FF0;
-            background-color: #FFF;
-        }
-        
-        #tblTotal tr td{
-            border-top: 0;
-        }
-           
-        .fancy-file {
-            display: block;
-            position: relative;
-        }
-        
-        .fancy-file div {
-            position: absolute;
-            top: -1px;
-            left: 0px;
-            z-index: 1;
-            height: 36px;
-        }
-        
-        .fancy-file input[type="text"], .fancy-file button, .fancy-file .btn {
-            display: inline-block;
-            margin-bottom: 0;
-            vertical-align: middle;
-        }
-        
-    }
-
-
-</style>

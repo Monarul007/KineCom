@@ -23,7 +23,7 @@ class Category extends Model
         return $this->hasMany('App\Category','parent_id');
     }
     public function products(){
-        return $this->hasMany(Products::class);
+        return $this->belongsTo(Products::class);
     }
 
     public function parent() {
