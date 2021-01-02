@@ -59,6 +59,11 @@
                             }elseif($cat->status == 0){echo '<span class="badge badge-danger">Inactive</span>';}
                         ?></td>
                         <td class="project-actions text-right">
+                          <a class="btn btn-info btn-sm" href="{{url('/category/'.$cat->url)}}" target="_blank">
+                              <i class="fas fa-eye">
+                              </i>
+                              View
+                          </a>
                           <a class="btn btn-info btn-sm" href="{{url('/admin/edit_category/'.$cat->id)}}">
                               <i class="fas fa-pencil-alt">
                               </i>

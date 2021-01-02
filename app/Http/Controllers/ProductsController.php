@@ -314,7 +314,25 @@ class ProductsController extends Controller
         }else{
             DB::table('cart')->insert(['product_id'=>$product->id,'product_name'=>$product->product_name,'image'=>$image,'product_code'=>$product->product_code,'product_color'=>$product->product_color,'price'=>$price,'weight'=>$product->product_size,'quantity'=>1,'user_email'=>$email,'session_id'=>$session_id,'created_at'=>NOW()]);
         }
-        return $id;
+
+        $userCart = DB::table('cart')->where('session_id', $session_id)->get()->toArray();
+        // $userCartArray = array();
+        // foreach($userCart as $cart){
+        //     $userCartDiv = '<li>
+        //     <a href="/products/'.$cart->product_id.'" class="image">
+        //         <img src="/images/'.$cart->image.'" alt="Product">
+        //     </a>
+        //     <div class="content">
+        //         <a href="/products/'.$cart->product_id.'" class="title">'.$cart->product_name.'</a>
+        //         <span class="price">Price: BDT:'.$cart->price.'</span>
+        //         <span class="qty">Qty: '.$cart->quantity.'</span>
+        //     </div>
+        //     <a href="/cart/delete-product/'.$cart->id.'" class="remove"><i class="fa fa-trash-o"></i></a>
+        // </li>';
+        // $userCartArray[] = $userCartDiv;
+        // }
+
+        echo json_encode($userCart);
     }
 
     public function addtoCart(Request $request){

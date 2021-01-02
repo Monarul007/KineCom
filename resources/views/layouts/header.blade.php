@@ -88,7 +88,6 @@
                             <!-- Search Results -->
                             <div class="prod_list_div shadow" style="position: absolute; top: 46px; left: 0px; z-index: 999; background: #fff;border-top-right-radius: 0;border-top-left-radius: 0;width: 100%;">
                             </div>
-
                         </div>
                         <!-- Header Advance Search End -->
                     </div>
@@ -143,7 +142,7 @@
                             <!-- Wishlist -->
                             <!-- <a href="wishlist.html" class="header-wishlist"><i class="ti-heart"></i> <span class="number">3</span></a> -->
                             <!-- Cart -->
-                            <a href="/cart" class="header-cart"><i class="ti-shopping-cart"></i> <span class="number">{{$userCart->count()}}</span></a>
+                            <a href="/cart" class="header-cart"><i class="ti-shopping-cart"></i> <span class="number"><span></span></span></a>
                         </div>
                         <!-- Header Shop Links End -->
                     </div>
@@ -170,33 +169,12 @@
     
         <!-- Mini Cart Products -->
         <ul class="mini-cart-products">
-            @if($userCart->count() > 0)
-                @foreach($userCart as $cart)
-                    <li>
-                        <a href="/products/{{$cart->product_id}}" class="image">
-                            <img src="/images/{{$cart->image}}" alt="Product">
-                        </a>
-                        <div class="content">
-                            <a href="/products/{{$cart->product_id}}" class="title">{{$cart->product_name}}</a>
-                            <span class="price">Price: BDT:{{$cart->price}}</span>
-                            <span class="qty">Qty: {{$cart->quantity}}</span>
-                        </div>
-                        <a href="{{ url('/cart/delete-product/'.$cart->id) }}" class="remove"><i class="fa fa-trash-o"></i></a>
-                    </li>
-                @endforeach
-            @else
-                <div class="text-center text-danger">No product added to cart yet!</div>
-            @endif
+            
         </ul>
     
         <!-- Mini Cart Bottom -->
         <div class="mini-cart-bottom">    
-            <?php $total_amount = 0;
-                foreach($userCart as $item){
-                    $total_amount = $total_amount + ($item->price * $item->quantity);
-                }
-            ?>
-            <h4 class="sub-total">Total: <span>BDT: <?= $total_amount ?></span></h4>
+            <h4 class="sub-total">Total: <span></span></h4>
 
             <div class="button">
                 <a href="/checkout">CHECK OUT</a>
@@ -234,88 +212,53 @@ $(document).ready(function(){
             cache: false,
             processData: false,
             dataType: "json",
-            success: function (data) {
-                alert(data.responseText);
-            },
-            error: function(ts) {
-                alert(ts.responseText);
-                $(this).addClass("added");
+            success: function (response) {
+                // alert(JSON.stringify(response));
+                // alert(data);
                 $(".mini-cart-wrap").addClass("open");
                 $(".cart-overlay").addClass("visible");
+                $('.mini-cart-products li').remove();
+                $('.sub-total span').remove();
+                $('.header-cart span').remove();
+                var len = response.length;
+                var total = 0;
+                for(var i=0; i<len; i++){
+                    var id = response[i].id;
+                    var product_id = response[i].product_id;
+                    var image = response[i].image;
+                    var product_name = response[i].product_name;
+                    var price = response[i].price;
+                    var quantity = response[i].quantity;
+                    var product_name = response[i].product_name;
+                    var id = response[i].id;
+                    total += parseFloat(price * quantity);
+
+                    var tr_str = "<li>" +
+                    "<a href='/products/" + product_id + "' class='image'>" +
+                        "<img src='/images/products/" + image + "' alt='Product'>" +
+                    "</a>" +
+                    "<div class='content'>" +
+                        "<a href='/products/" + product_id + "' class='title'>"+ product_name + "</a>" + 
+                        "<span class='price'>Price: BDT:"+ price + "</span>" +
+                        "<span class='qty'>Qty: " + quantity + "</span>" +
+                    "</div>" +
+                    "<a href='/cart/delete-product/" + id + "' class='remove'>" + 
+                        "<i class='fa fa-trash-o'></i>" +
+                    "</a>" +
+                "</li>";
+
+                    $(".mini-cart-products").append(tr_str);
+                }
+                $(".sub-total").append("<span>BDT "+total+"</span>");
+                $(".header-cart").append("<span class='number'>"+i+"</span>");
+            },
+            error: function(response) {
+                swal.fire(response.responseText);
+                console.log(response);
+                $(this).addClass("added");
             },
         });
     });
-    // load_product();
-    // load_cart_data();
-        
-    // function load_product(){
-    //     $.ajax({
-    //         url:"fetch_item.php",
-    //         method:"POST",
-    //         success:function(data){
-    //             $('#display_item').html(data);
-    //         }
-    //     });
-    // }
-
-    // function load_cart_data(){
-    //     $.ajax({
-    //         url:"fetch_cart.php",
-    //         method:"POST",
-    //         success:function(data){
-    //             $('#shopping_cart').html(data);
-    //         }
-    //     });
-    // }
-
-    // $(document).on('click', '.select_product', function(){
-    //     var product_id = $(this).data('product_id');
-    //     if($(this).prop('checked') == true){
-    //         $('#product_'+product_id).css('background-color', '#f1f1f1');
-    //         $('#product_'+product_id).css('border-color', '#333');
-    //     }
-    //     else{
-    //         $('#product_'+product_id).css('background-color', 'transparent');
-    //         $('#product_'+product_id).css('border-color', '#ccc');
-    //     }
-    // });
-
-    // $('#add_to_cart').click(function(){
-    //     var product_id = [];
-    //     var product_name = [];
-    //     var product_price = [];
-    //     var action = "add";
-    //     $('.select_product').each(function(){
-    //         if($(this).prop('checked') == true){
-    //             product_id.push($(this).data('product_id'));
-    //             product_name.push($(this).data('product_name'));
-    //             product_price.push($(this).data('product_price'));
-    //         }
-    //     });
-
-    //     if(product_id.length > 0){
-    //         $.ajax({
-    //             url:"action.php",
-    //             method:"POST",
-    //             data:{product_id:product_id, product_name:product_name, product_price:product_price, action:action},
-    //             success:function(data){
-    //                 $('.select_product').each(function(){
-    //                     if($(this).prop('checked') == true){
-    //                         $(this).attr('checked', false);
-    //                         var temp_product_id = $(this).data('product_id');
-    //                         $('#product_'+temp_product_id).css('background-color', 'transparent');
-    //                         $('#product_'+temp_product_id).css('border-color', '#ccc');
-    //                     }
-    //                 });
-
-    //                 load_cart_data();
-    //                 alert("Item has been Added into Cart");
-    //             }
-    //         });
-    //     }else{
-    //         alert('Select atleast one item');
-    //     }
-    // });
 
     // $(document).on('click', '.delete', function(){
     //     var product_id = $(this).attr("id");

@@ -63,6 +63,7 @@
                         <td>{{$product->stock}}</td>
                         <td><?php if($product->is_featured == 0){ echo '<span class="badge badge-warning">Regular</span>';}elseif($product->is_featured == 1){ echo "<span class='badge badge-success'>Featured</span>";} ?></td>
                         <td class="project-actions text-center">
+                          <a class="btn btn-info btn-sm mb-1" href="{{url('/products/'.$product->id)}}" target="_blank" title="View"><i class="fas fa-eye"></i></a>
                           <a class="btn btn-info btn-sm mb-1" href="{{url('/admin/edit_product/'.$product->id)}}" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                           <a class="btn btn-info btn-sm mb-1" href="{{url('/admin/create_attribute/'.$product->id)}}" title="Add Attribute">+Attribute</a>
                           <!--<a class="btn btn-info btn-sm mb-1" href="{{url('/admin/create_attribute/'.$product->id)}}" title="Add Images For This Product">+ Images</a>-->

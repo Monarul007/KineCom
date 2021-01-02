@@ -88,33 +88,4 @@
             </div>
         </div>
     </div><!-- Single Product Section End -->
-<script>
-    $(document).ready(function(){
-        $("body").on("click", "a.add-to-cart", function () {
-            var id = $(this).data('id');
-            var formData = new FormData();
-            formData.append('id', id);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: "/ajaxCart",
-                method: 'post',
-                data: formData,
-                contentType: false,
-                cache: false,
-                processData: false,
-                dataType: "json",
-                success: function (data) {
-                    $(this).addClass("added");
-                },
-                error: function(ts) {
-                    alert(ts.responseText);
-                },
-            });
-        });
-    });
-</script>
 @endsection
