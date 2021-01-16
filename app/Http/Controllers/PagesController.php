@@ -92,7 +92,7 @@ class PagesController extends Controller
         $catDatas = Category::with('categories')->where(['url' => $url])->first();
         
         $productDatas = Products::where(['cat_id' => $catDatas->id])
-        ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.before_price','products.after_pprice','categories.name as catname')
+        ->select('products.id',DB::raw('substr(product_name, 1, 45) as name'),'products.product_img','products.product_desc','products.before_price','products.after_pprice','categories.name as catname')
         ->join('categories', 'products.cat_id', '=', 'categories.id')
         ->paginate(12);
 
@@ -277,6 +277,25 @@ class PagesController extends Controller
             return view ( 'search-results' )->with(compact('products','q','count'));
         }
         return view ( 'search-results' )->with('flash_message_success', 'No product found. Try searching again!');
+    }
+
+    public function ajaxSearch(Request $request){
+        if($request->ajax()) {
+            $data = Products::where('product_name', 'LIKE', $request->s_text.'%')->take(10)->get();
+            $output = '';
+           
+            if (count($data)>0) {
+                $output = '<ul class="list-group" style="display: block; position: relative; z-index: 1">';
+                foreach ($data as $row){
+                    $output .= '<li class="list-group-item"><a href="/products/'.$row->id.'">'.$row->product_name.'</a></li>';
+                }
+                $output .= '</ul>';
+            }
+            else {
+                $output .= '<li class="list-group-item">'.'No results'.'</li>';
+            }
+            return $output;
+        }
     }
     
 }

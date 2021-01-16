@@ -65,6 +65,7 @@ Route::any ( '/search', function (Request $request) {
 } );
 
 Route::match(['get','post'],'/searchproducts/{key}','PagesController@searchResults')->name('search-results');
+Route::match(['get','post'],'/ajax_search','PagesController@ajaxSearch')->name('ajaxSearch');
 
 Route::group(['middleware' => ['userlogin']], function(){
     //User Account Page

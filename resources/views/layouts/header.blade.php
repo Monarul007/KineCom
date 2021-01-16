@@ -6,10 +6,10 @@
   $settings = Controller::generalSettings();
 ?>
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="{{ app()->getLocale() }}">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta http-equiv="x-ua-compatible" content="IE=edge">
         <title>{{$GenSettings->site_name}} - {{$GenSettings->site_tagline}}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,7 +68,6 @@
         <div class="header-top header-top-one header-top-border pt-10 pb-10">
             <div class="container">
                 <div class="row align-items-center justify-content-between">
-    
                     <div class="col mt-10 mb-10 m-none">
                         <!-- Header Links Start -->
                         <div class="header-links">
@@ -127,7 +126,6 @@
                                     <li class="active"><a href="/">HOME</a>
                                     </li>
                                     <li><a href="/shop/all">Shop</a></li>
-                                    <li><a href="#">BLOG</a></li>
                                     <li><a href="#">CONTACT</a></li>
                                 </ul>
                             </nav>
@@ -138,7 +136,7 @@
                         <!-- Header Shop Links Start -->
                         <div class="header-shop-links">
                             <!-- Compare -->
-                            <a href="tel:+8801700999999" class="d-flex header-compare"><img src="/images/icons/feature-support-2.png" alt="" width="40" class="pr-2 m-auto"><h5>+8801700-999999 <br><span class="small">24/7 Support</span></h5></a>
+                            <a href="tel:{{$GenSettings->phone}}" class="d-flex header-compare"><img src="/images/icons/feature-support-2.png" alt="" width="40" class="pr-2 m-auto"><h5>{{$GenSettings->phone}} <br><span class="small">24/7 Support</span></h5></a>
                             <!-- Wishlist -->
                             <!-- <a href="wishlist.html" class="header-wishlist"><i class="ti-heart"></i> <span class="number">3</span></a> -->
                             <!-- Cart -->
@@ -255,9 +253,36 @@ $(document).ready(function(){
             error: function(response) {
                 swal.fire(response.responseText);
                 console.log(response);
-                $(this).addClass("added");
             },
         });
+    });
+
+    $('#q').on('keyup',function(){
+        var query = $(this).val();
+        if(query == ''){
+        	$('.prod_list_div').hide();
+        	return false;
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url:"{{ route('ajaxSearch') }}",
+            type:"GET",
+            data:{'s_text':query},
+            success:function (data) {
+                $('.prod_list_div').show();
+                $('.prod_list_div').html(data);
+            }
+        })
+        // end of ajax call
+    });          
+    $(document).on('click', 'li', function(){       
+        var value = $(this).text();
+        $('#q').val(value);
+        $('#prod_list_div').html("");
     });
 
     // $(document).on('click', '.delete', function(){

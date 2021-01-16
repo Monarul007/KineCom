@@ -23,7 +23,6 @@ class IndexController extends Controller
             $catid = $cat['id'];
             $cat_image = $cat['image'];
             $subcategory = Category::where('parent_id', $catid)->limit(3)->get();
-
             $count = $subcategory->count();
             if($count > 0){
                 $subMenuDiv = "<li class='menu-item-has-children'><a href='#'>".$cat['name']."</a>";
@@ -34,37 +33,30 @@ class IndexController extends Controller
             if($subcategory->count() > 0){
                 $subMenuDiv .= "<ul id=sub-$catid class='category-mega-menu'>";
                 foreach($subcategory as $subcat){
-                
                     $subcatid = $subcat['id'];
                     $subcatname = $subcat['name'];
+                    $subcaturl = $subcat['url'];
                     $subcatparent = $subcat['parent_id'];
                         
-                    $subMenuDiv .= "<li class='menu-item-has-children'><a href='#'>".$subcatname."</a>";
-                    
+                    $subMenuDiv .= "<li class='menu-item-has-children'><a href='/category/".$subcaturl."'>".$subcatname."</a>";
                     $subMenuDiv .= "<ul>";
-                    
                     $subsubcategory = Category::where('parent_id', $subcatid)->limit(6)->get();
                     
                     foreach($subsubcategory as $subsubcat){
-                    
                         $subsubcatid = $subsubcat['id'];
                         $subsubcatname = $subsubcat['name'];
+                        $subsubcaturl = $subsubcat['url'];
                         $subsubcatparent = $subcat['parent_id'];
                         
                         //$subMenuDiv .= "<li><a href= $src.'/".$subsubcatid."'>".$subsubcatname."</a></li>";
-                        $subMenuDiv .= '<li><a href="'.$src."/subcategories/".$subsubcatid.'">'.$subsubcatname.'</a></li>';
+                        $subMenuDiv .= '<li><a href="/category/'.$subsubcaturl.'">'.$subsubcatname.'</a></li>';
                     }
-                    
                     $subMenuDiv .= "</ul></li>";
-                    
                 }
-    
                 $subMenuDiv .= "</ul>";
             }
             $subMenuDiv .= "</li>";
-            
             $subMenuArray[] = $subMenuDiv;
-            
         }
 
         $categories = Category::where('parent_id', '!=', 0)->inRandomOrder()->limit(5)->get();

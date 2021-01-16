@@ -230,9 +230,7 @@
                     </div>
                     
                     <div class="shop-sidebar mb-35">
-                    
                         <h4 class="title">Color</h4>
-                        
                         <ul class="sidebar-brand">
                             <li><a href="#">White</a></li>
                             <li><a href="#">Black</a></li>
@@ -240,13 +238,9 @@
                             <li><a href="#">Rose Gold</a></li>
                             <li><a href="#">Spacegrey</a></li>
                         </ul>
-                        
                     </div>
-                    
                     <div class="shop-sidebar mb-35">
-                    
                         <h4 class="title">Tags</h4>
-                        
                         <div class="sidebar-tags">
                             <a href="#">smartphone</a>
                             <a href="#">Iron</a>
@@ -255,43 +249,9 @@
                             <a href="#">Play Station</a>
                             <a href="#">Oven</a>
                         </div>
-                        
                     </div>
-                    
                 </div>
             </div>
         </div>
     </div><!-- Feature Product Section End -->
-
-
-
-<script>
-    $(document).ready(function(){
-        $("body").on("click", "a.add-to-cart", function () {
-            var id = $(this).data('id');
-            var formData = new FormData();
-            formData.append('id', id);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: "/ajaxCart",
-                method: 'post',
-                data: formData,
-                contentType: false,
-                cache: false,
-                processData: false,
-                dataType: "json",
-                success: function (data) {
-                    $(this).addClass("added");
-                },
-                error: function(ts) {
-                    alert(ts.responseText);
-                },
-            });
-        });
-    });
-</script>
 @endsection
