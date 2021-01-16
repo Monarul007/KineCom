@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.admin.app_pos')
 @section('title','Add Products')
 @section('content')
 
@@ -57,18 +57,6 @@
                             <label for="inputName">Product Title<span class="text-danger">*</span></label>
                             <input type="text" name="inputName" id="inputName" class="form-control" placeholder="Enter Title...">
                         </div>
-                        <div class="form-group">
-                            <label for="inputDescription">Product Description</label>
-                            <textarea name="inputDescription" id="inputDescription" class="form-control" rows="8"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputSpecs">Product Specification</label>
-                            <textarea name="inputSpecs" id="inputSpecs" class="form-control" rows="8"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputFeature">Main Features</label>
-                            <textarea name="inputFeature" id="inputFeature" class="form-control" rows="8"></textarea>
-                        </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -83,49 +71,67 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputCategory">Select Category<span class="text-danger">*</span></label>
-                            <select id="inputCategory" name="inputCategory" class="form-control custom-select">
-                                <option selected disabled>Select One</option>
-                                <?php if($category != null){ 
-                                    foreach($category as $cat){ ?>
-                                    <option value="<?php echo $cat['id'] ?>"><?php echo $cat['name'] ?> </option>
-                                <?php } }?>
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputCategory">Select Category<span class="text-danger">*</span></label>
+                                    <select id="inputCategory" name="inputCategory" class="form-control select2">
+                                        <option selected disabled>Select One</option>
+                                        <?php if($category != null){ 
+                                            foreach($category as $cat){ ?>
+                                            <option value="<?php echo $cat['id'] ?>"><?php echo $cat['name'] ?> </option>
+                                        <?php } }?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputBrand">Select Brand<span class="text-danger">*</span></label>
+                                    <select id="inputBrand" name="inputBrand" class="form-control select2">
+                                        <option selected disabled>Select One</option>
+                                        <?php if($brands != null){ 
+                                            foreach($brands as $brand){ ?>
+                                            <option value="<?php echo $brand['id'] ?>"><?php echo $brand['name'] ?> </option>
+                                        <?php } }?>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputBrand">Select Brand<span class="text-danger">*</span></label>
-                            <select id="inputBrand" name="inputBrand" class="form-control custom-select">
-                                <option selected disabled>Select One</option>
-                                <?php if($brands != null){ 
-                                    foreach($brands as $brand){ ?>
-                                    <option value="<?php echo $brand['id'] ?>"><?php echo $brand['name'] ?> </option>
-                                <?php } }?>
-                            </select>
+                            <label for="inputDescription">Product Description</label>
+                            <textarea name="inputDescription" id="inputDescription" class="form-control" rows="8"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSpecs">Product Specification</label>
+                            <textarea name="inputSpecs" id="inputSpecs" class="form-control" rows="8"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputFeature">Main Features</label>
+                            <textarea name="inputFeature" id="inputFeature" class="form-control" rows="8"></textarea>
                         </div>
                         <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="inputSKU">SKU</label>
-                                    <input type="text" name="inputSKU" id="inputSKU" placeholder="Enter SKU" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="inputSize">Product Weight</label>
-                                    <input type="text" name="inputSize" id="inputSize" placeholder="Enter Weight" class="form-control"/>
-                                </div>
-                            </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="inputStock">Stock</label>
                                     <input type="text" name="inputStock" id="inputStock" placeholder="Enter Stock" class="form-control"/>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Product Code</label>
-                            <input type="text" name="inputCode" class="form-control" placeholder="Enter ...">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Product Code</label>
+                                    <input type="text" name="inputCode" class="form-control" placeholder="Enter ...">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputStatus">Product Type<span class="text-danger">*</span></label>
+                                    <select id="inputStatus" name="inputStatus" class="form-control custom-select">
+                                        <option selected disabled>Select one</option>
+                                        <option value="0">Regular Product</option>
+                                        <option value="1">Featured Product</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="inputImage">Product Image<span class="text-danger">*</span></label>
@@ -134,23 +140,15 @@
                                 <label class="custom-file-label" for="inputImage">Choose file</label>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputStatus">Product Type<span class="text-danger">*</span></label>
-                            <select id="inputStatus" name="inputStatus" class="form-control custom-select">
-                                <option selected disabled>Select one</option>
-                                <option value="0">Regular Product</option>
-                                <option value="1">Featured Product</option>
-                            </select>
-                        </div>
-                  </div>
-                  <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
-                            <div class="form-group field_wrapper">
-                                <label for="addImage" class="">New Additional Image</label>
-                                <div class="row">
-                                    <input type="file" name="addImage[]" id="addImage" class="form-control col-md-9 m-1" placeholder="Add New Additional Image" required>
-                                    <a href="javascript:void(0);" class="add_button col-md-2 m-auto" title="Add field">Add New</a>
-                                </div>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
+                        <div class="form-group field_wrapper">
+                            <label for="addImage" class="">New Additional Image</label>
+                            <div class="row">
+                                <input type="file" name="addImage[]" id="addImage" class="form-control col-md-9 m-1" placeholder="Add New Additional Image" multiple>
+                                <a href="javascript:void(0);" class="add_button col-md-2 m-auto" title="Add field">Add New</a>
                             </div>
+                        </div>
                     </div>
                 </div>
               </div>
@@ -179,11 +177,11 @@
         var maxField = 10;
         var addButton = $('.add_button');
         var wrapper = $('.field_wrapper');
-        var fieldHTML = '<div class="row"><input type="file" name="addImage[]" id="sku" class="form-control col-md-9 m-1" placeholder="Add New Additional Image" required><a href="javascript:void(0);" class="remove_button col-md-2 m-auto text-danger" title="Remove Field">Remove</a></div>';
+        var fieldHTML = '<div class="row"><input type="file" name="addImage[]" id="sku" class="form-control col-md-9 m-1" placeholder="Add New Additional Image" multiple><a href="javascript:void(0);" class="remove_button col-md-2 m-auto text-danger" title="Remove Field">Remove</a></div>';
         var x = 1;
         
         $(addButton).click(function(){
-            if(x < maxField){ 
+            if(x < maxField){
                 x++;
                 $(wrapper).append(fieldHTML);
             }
@@ -276,6 +274,10 @@
         $('#inputSpecs').summernote(),
         $('#inputFeature').summernote()
     });
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+    })
 </script>
 
 @endsection

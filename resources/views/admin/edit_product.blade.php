@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.admin.app_pos')
 @section('content')
 
   <!-- Content Wrapper. Contains page content -->
@@ -30,6 +30,7 @@
             @php( $name = $product->product_name )
             @php( $desc = $product->product_desc)
             @php( $specs = $product->product_specs )
+            @php( $features = $product->main_feature )
             @php( $price = $product->before_price )
             @php( $dprice = $product->after_pprice )
             @php( $code = $product->product_code )
@@ -72,6 +73,10 @@
                         <div class="form-group">
                             <label for="inputSpecs">Product Specification</label>
                             <textarea name="inputSpecs" id="inputSpecs" class="form-control" rows="8">{{$specs}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputFeatures">Product Main Features</label>
+                            <textarea name="inputFeatures" id="inputFeatures" class="form-control" rows="8">{{$features}}</textarea>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
@@ -128,8 +133,8 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label for="inputSize">Product Weight</label>
-                                    <input type="text" name="inputSize" id="inputSize" class="form-control" value="{{$weight}}">
+                                    <label>Product Code</label>
+                                    <input type="text" name="inputCode" class="form-control" value="{{$code}}">
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -138,10 +143,6 @@
                                     <input type="text" name="inputStock" id="inputStock" value="{{$stock}}" class="form-control"/>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Product Code</label>
-                            <input type="text" name="inputCode" class="form-control" value="{{$code}}">
                         </div>
                         <div class="form-group">
                             <label for="inputImage">Product Image</label> <br>
@@ -192,6 +193,10 @@
     $(function () {
         // Summernote
         $('#inputSpecs').summernote()
+    });
+    $(function () {
+        // Summernote
+        $('#inputFeatures').summernote()
     });
 </script>
 

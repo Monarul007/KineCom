@@ -42,20 +42,19 @@ $status = '';
 @endforeach
 <!DOCTYPE html">
 <html lang="en">
-
 <head>
-	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Invoice #<?= $orderno ?></title>
     <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css"/>
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}" type="text/css">
 </head>
-
 <body>
 
 	<div id="page-wrap">
         <div id="button-div">
             <a href="" class="btn btn-success" id="print-btn" onclick="window.print()">Print Invoice</a>
-            <a class="btn btn-info" href="{{ url()->previous() }}">Back to previous page</a>
+            <a class="btn btn-info" href="/dashboard">Back to previous page</a>
         </div>
 		<textarea id="header">INVOICE</textarea>
 		
@@ -170,7 +169,15 @@ $status = '';
                     <img src="/images/products/{{$ordD->image}}" alt="" width="70px" height="70px" style="border-radius: 100%;">
                     @endif
                 </td>
-                <td class="description">{{$ordD->name}}</td>
+                <td class="description">
+                    {{$ordD->name}}
+                    <br> 
+                    <div class="d-flex">
+                        <span class="mr-2">@if($ordD->weight) Weight: {{$ordD->weight}} @endif</span>
+                        <span class="mr-2">@if($ordD->color) Color: {{$ordD->color}} @endif</span>
+                        <span class="mr-2">@if($ordD->size) Color: {{$ordD->size}} @endif</span>
+                    </div>
+                </td>
                 <td><span class="cost">{{$ordD->price}}</span></td>
                 <td><span class="qty">{{$ordD->qnt}}</span></td>
                 <td><span class="price">৳<?= $price ?></span></td>
@@ -208,9 +215,8 @@ $status = '';
 		  <textarea>Finance Charge of 1.5% will be made on unpaid balances after 30 days.</textarea>
 		</div>
         <div class="mt-2 mb-5 text-center text-info">Prepared by : <a class="" target="_blank" href="{{ route('home') }}">{{$GenSettings->site_name}}.</a></div>
-	</div>
-</body>
-
+    </div>
+    <br>
 <style>
 * { margin: 0; padding: 0; }
 .table-responsive{overflow-x: visible;}
@@ -261,5 +267,5 @@ textarea:hover, textarea:focus, #items td.total-value textarea:hover, #items td.
     #button-div {display: none;}
 }
 </style>
-
+</body>
 </html>

@@ -58,7 +58,7 @@ class CheckoutController extends Controller
         date_default_timezone_set('Europe/London');
         $date = date("Y-m-d");
         $time = date("H:i:s");
-        $order_id = "HOB-".date("his");
+        $order_id = "TP-".date("his");
         
         $session_id = Session::get('session_id');
         $take_cart_items = DB::table('cart')->where(['session_id'=>$session_id])->get();
@@ -129,6 +129,7 @@ class CheckoutController extends Controller
                     catch(Exception $e)
                     {
                         echo $e->getMessage();
+                        
                         exit;
                     }
                     
@@ -174,8 +175,11 @@ class CheckoutController extends Controller
                         $proId = $take_cart_items[$key]->product_id;
                         $quantity = $take_cart_items[$key]->quantity;
                         $weight = $take_cart_items[$key]->weight;
+                        $color = $take_cart_items[$key]->product_color;
+                        $size = $take_cart_items[$key]->size;
                         $price = $take_cart_items[$key]->price;
                         if(!empty($val)){
+                            
                             $OrderDetail = new Order_detail;
                             // $getId = $order = DB::table('orders')->where('order_number',$order_id)->get();
     
@@ -183,8 +187,9 @@ class CheckoutController extends Controller
                             $OrderDetail->product_id = $proId;
                             $OrderDetail->quantity = $quantity;
                             $OrderDetail->price = $price;
-                            $OrderDetail->filter = "Weight";
-                            $OrderDetail->filter_value = $weight;
+                            $OrderDetail->weight = $weight;
+                            $OrderDetail->color = $color;
+                            $OrderDetail->size = $size;
                             
                             $OrderDetail->save();
                         }
@@ -246,7 +251,7 @@ class CheckoutController extends Controller
         $order = DB::table('orders')->where('order_number', $order_number)->get();
 
         $order_details = Order_detail::where('order_id', $order_number)->get();
-        $order_details = DB::table('products')->select('products.product_name as pname', 'products.product_img as image', 'order_details.quantity as qnt', 'order_details.price as price', 'order_details.filter as filter', 'order_details.filter_value as filter_value')
+        $order_details = DB::table('products')->select('products.product_name as pname', 'products.product_img as image', 'order_details.quantity as qnt', 'order_details.price as price', 'order_details.weight as weight', 'order_details.color as color','order_details.size as size')
         ->join('order_details', 'order_details.product_id', '=', 'products.id')
         ->where('order_details.order_id', $order_number)->get();
 

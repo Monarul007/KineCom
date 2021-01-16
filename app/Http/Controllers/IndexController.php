@@ -16,48 +16,6 @@ class IndexController extends Controller
     public function index(){
 
         $category = Category::where('parent_id', 0)->limit(10)->get();
-        $subMenuArray = array();
-        
-        $src = substr (Request::root(), 7);
-        foreach($category as $cat){
-            $catid = $cat['id'];
-            $cat_image = $cat['image'];
-            $subcategory = Category::where('parent_id', $catid)->limit(3)->get();
-            $count = $subcategory->count();
-            if($count > 0){
-                $subMenuDiv = "<li class='menu-item-has-children'><a href='#'>".$cat['name']."</a>";
-            }else{
-                $subMenuDiv = "<li><a href='#'>".$cat['name']."</a>";
-            }
-            
-            if($subcategory->count() > 0){
-                $subMenuDiv .= "<ul id=sub-$catid class='category-mega-menu'>";
-                foreach($subcategory as $subcat){
-                    $subcatid = $subcat['id'];
-                    $subcatname = $subcat['name'];
-                    $subcaturl = $subcat['url'];
-                    $subcatparent = $subcat['parent_id'];
-                        
-                    $subMenuDiv .= "<li class='menu-item-has-children'><a href='/category/".$subcaturl."'>".$subcatname."</a>";
-                    $subMenuDiv .= "<ul>";
-                    $subsubcategory = Category::where('parent_id', $subcatid)->limit(6)->get();
-                    
-                    foreach($subsubcategory as $subsubcat){
-                        $subsubcatid = $subsubcat['id'];
-                        $subsubcatname = $subsubcat['name'];
-                        $subsubcaturl = $subsubcat['url'];
-                        $subsubcatparent = $subcat['parent_id'];
-                        
-                        //$subMenuDiv .= "<li><a href= $src.'/".$subsubcatid."'>".$subsubcatname."</a></li>";
-                        $subMenuDiv .= '<li><a href="/category/'.$subsubcaturl.'">'.$subsubcatname.'</a></li>';
-                    }
-                    $subMenuDiv .= "</ul></li>";
-                }
-                $subMenuDiv .= "</ul>";
-            }
-            $subMenuDiv .= "</li>";
-            $subMenuArray[] = $subMenuDiv;
-        }
 
         $categories = Category::where('parent_id', '!=', 0)->inRandomOrder()->limit(5)->get();
         $featuredArray = array();
@@ -170,7 +128,7 @@ class IndexController extends Controller
                     $productsArrayDiv .= '<div class="content">
                     <div class="category-title">
                         <a href="/category/'.$fp->url.'" class="cat">'.$fp->catname.'</a>
-                        <h5 class="title"><a href="/products/'.$p->id.'">'.$fp->product_name.'</a></h5>
+                        <h5 class="title"><a href="/products/'.$fp->id.'">'.$fp->product_name.'</a></h5>
                     </div>';
                     if($fp->after_pprice == NULL){
                         $productsArrayDiv .= '<div class="price-ratting">
@@ -232,10 +190,10 @@ class IndexController extends Controller
 
         $topBrands = Brands::inRandomOrder()->limit(12)->get();
 
-        $all = Products::select('products.id', DB::raw('substr(product_name, 1, 50) as product_name'), 'products.product_img', 'products.before_price', 'products.after_pprice', 'categories.name as catname','categories.url')
-        ->join('categories', 'products.cat_id', '=', 'categories.id')->where('cat_id',$fcatid)->limit(12)->get();
+        // $all = Products::select('products.id', DB::raw('substr(product_name, 1, 50) as product_name'), 'products.product_img', 'products.before_price', 'products.after_pprice', 'categories.name as catname','categories.url')
+        // ->join('categories', 'products.cat_id', '=', 'categories.id')->where('cat_id',$fcatid)->limit(12)->get();
         
-        return view('welcome')->with(compact('banners','randomCats','bestSelling','mostPopular','category','categories','subMenuArray','featuredArray','topBrands','productsArray'));
+        return view('welcome')->with(compact('banners','randomCats','bestSelling','mostPopular','category','categories','featuredArray','topBrands','productsArray'));
     }
 
 

@@ -113,7 +113,7 @@ class OrderController extends Controller
             $order_data[] = $ord['grand_total'];
             $order_data[] = $ord['created_at'];
         }
-        $order_details = DB::table('order_details')->select('products.product_name as name', 'products.product_img as image', 'order_details.quantity as qnt', 'order_details.price as price','order_details.filter as filter', 'order_details.filter_value as filter_value')
+        $order_details = DB::table('order_details')->select('products.product_name as name', 'products.product_img as image', 'order_details.quantity as qnt', 'order_details.price as price','order_details.weight as weight', 'order_details.color as color','order_details.size as size')
         ->join('products', 'order_details.product_id', 'products.id')->where('order_details.order_id', $order_no)->get();
 
         return view('admin.orders.invoice')->with(compact('order_no','order','order_data','order_details'));

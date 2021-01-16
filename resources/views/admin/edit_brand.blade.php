@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.admin.app_pos')
 @section('content')
 
   <!-- Content Wrapper. Contains page content -->
@@ -43,12 +43,12 @@
                 @endforeach
                 <div class="card card-primary">
                     <div class="card-header">
-                    <h3 class="card-title">Create Brand</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                        <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
+                        <h3 class="card-title">Create Brand</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <form action="{{ url('/admin/edit_brand/'.$id) }}" id="addBrand" method="POST" enctype="multipart/form-data">

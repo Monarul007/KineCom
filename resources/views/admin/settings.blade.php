@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@extends('layouts.admin.app_pos')
 @section('content')
 
    <!-- Content Wrapper. Contains page content -->

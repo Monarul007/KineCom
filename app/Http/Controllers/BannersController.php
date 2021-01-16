@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Banner;
+use Illuminate\Support\Str;
 
 class BannersController extends Controller
 {
@@ -14,12 +15,18 @@ class BannersController extends Controller
             $banner->title = $data['inputName'];
             $banner->status = $data['inputStatus'];
             $banner->type = $data['inputType'];
-            $banner->link = $data['inputURL'];
+            $slug = Str::slug($request->inputName);
+            $slug_count = Banner::where('link', $slug)->count();
+            if($slug_count > 0){
+                $x = Date('ms')."-".rand(1000,10000);
+                $slug = $slug.$x;
+            }
+            $banner->link = $slug;
 
             if($request->hasFile('inputImage')){
                 $file = $request->file('inputImage');
                 $basename = basename($file);
-                $img_name = $basename.time().$file->getClientOriginalExtension();
+                $img_name = $basename.time().'.'.$file->getClientOriginalExtension();
                 $file->move('images/banners/', $img_name);
                 $banner->image = $img_name;
             }

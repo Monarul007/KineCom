@@ -102,44 +102,52 @@
                                     <div class="quantity-colors">
                                         <div class="quantity">
                                             <h5>Quantity</h5>
-                                            <div class="pro-qty"><input type="text" value="1" min="1" name="inputQTY"></div>
+                                            <div id="qty" class="pro-qty"><input type="text" value="1" min="1" name="inputQTY"></div>
                                         </div>                            
-                                        @if($singleProduct->attributes->count() > 0)
+                                        @if($colors->count() >0)
                                         <div class="colors">
-                                            <h5>Weight</h5>
-                                            <select class="nice-select">
-                                                @foreach($singleProduct->attributes as $weight)
-                                                <option value="{{$singleProduct->id}}-{{$weight->weight}}">{{$weight->weight}}</option>
-                                                @endforeach
+                                            <h5>Color</h5>
+                                            <select id="color" name="color" class="nice-select">
+                                            @foreach($colors as $color)
+                                                <option value="{{$color->value}}" @if($loop->first) selected @endif >{{$color->value}}</option>
+                                            @endforeach
                                             </select>
                                         </div>
                                         @endif
-                                    </div> 
+
+                                        @if($size->count() >0)
+                                        <div class="colors">
+                                            <h5>Color</h5>
+                                            <select id="size" name="size" class="nice-select">
+                                            @foreach($size as $s)
+                                                <option value="{{$s->value}}" @if($loop->first) selected @endif >{{$s->value}}</option>
+                                            @endforeach
+                                            </select>
+                                        </div>
+                                        @endif
+
+                                        @if($weight->count() >0)
+                                        <div class="colors">
+                                            <h5>Color</h5>
+                                            <select id="weight" name="weight" class="nice-select">
+                                            @foreach($weight as $w)
+                                                <option value="{{$w->value}}" @if($loop->first) selected @endif >{{$w->value}}</option>
+                                            @endforeach
+                                            </select>
+                                        </div>
+                                        @endif
+                                    </div>
 
                                     <div class="actions">
                                         @if($totalStock>0)
                                         <!-- <input type="submit" value="ADD TO CART" class="text-danger position-relative btn btn-medium btn-circle mr-30 mb-30" style="float: left;margin-right: 15px"> -->
-                                        <a href="/products/{{$singleProduct->id}}" data-id="{{$singleProduct->id}}" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                        <a data-id="{{$singleProduct->id}}" class="btn btn-medium btn-circle add-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
                                         @else
                                         <a class="text-danger position-relative btn btn-medium btn-circle mr-30 mb-30" style="float: left;margin-right: 15px">Out of stock</a>
                                         @endif
-                                        <div class="wishlist-compare">
-                                            <a href="#" data-tooltip="Compare"><i class="ti-control-shuffle"></i></a>
-                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
-                                        </div>
                                     </div>
-                                    
-                                    <div class="tags">
-                                        <h5>Tags:</h5>
-                                        <a href="#">Electronic</a>
-                                        <a href="#">Smartphone</a>
-                                        <a href="#">Phone</a>
-                                        <a href="#">Charger</a>
-                                        <a href="#">Powerbank</a>
-                                    </div>
-                                    
                                     <div class="share">
-                                        <h5>Share: </h5>
+                                        <h5>Social: </h5>
                                         <a href="#"><i class="fa fa-facebook"></i></a>
                                         <a href="#"><i class="fa fa-twitter"></i></a>
                                         <a href="#"><i class="fa fa-instagram"></i></a>
@@ -380,5 +388,87 @@
             </div>
         </div>
     </div><!-- Related Product Section End -->
+
+<script>
+    $(document).ready(function(){
+        $("body").on("click", "a.add-cart", function () {
+            var id = $(this).data('id');
+            var qty = $("#qty").val();
+            var color = $('#color').children("option:selected").val();
+            var size = $('#color').children("option:selected").val();
+            var weight = $('#color').children("option:selected").val();
+            if(color == undefined){
+                var color = null;
+            }
+            if(size == undefined){
+                var size = null;
+            }
+            if(weight == undefined){
+                var weight = null;
+            }
+            var formData = new FormData();
+            formData.append('id', id);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "/ajax2Cart",
+                method: 'post',
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                success: function (response) {
+                    // alert(JSON.stringify(response));
+                    // alert(data);
+                    $(".mini-cart-wrap").addClass("open");
+                    $(".cart-overlay").addClass("visible");
+                    $('.mini-cart-products li').remove();
+                    $('.sub-total span').remove();
+                    $('.header-cart span').remove();
+                    var len = response.length;
+                    var total = 0;
+                    for(var i=0; i<len; i++){
+                        var id = response[i].id;
+                        var product_id = response[i].product_id;
+                        var image = response[i].image;
+                        var product_name = response[i].product_name;
+                        var price = response[i].price;
+                        var quantity = response[i].quantity;
+                        var product_name = response[i].product_name;
+                        var id = response[i].id;
+                        total += parseFloat(price * quantity);
+
+                        var tr_str = "<li>" +
+                        "<a href='/products/" + product_id + "' class='image'>" +
+                            "<img src='/images/products/" + image + "' alt='Product'>" +
+                        "</a>" +
+                        "<div class='content'>" +
+                            "<a href='/products/" + product_id + "' class='title'>"+ product_name + "</a>" + 
+                            "<span class='price'>Price: BDT:"+ price + "</span>" +
+                            "<span class='qty'>Qty: " + quantity + "</span>" +
+                        "</div>" +
+                        "<a href='/cart/delete-product/" + id + "' class='remove'>" + 
+                            "<i class='fa fa-trash-o'></i>" +
+                        "</a>" +
+                    "</li>";
+
+                        $(".mini-cart-products").append(tr_str);
+                    }
+                    $(".sub-total").append("<span>BDT "+total+"</span>");
+                    $(".header-cart").append("<span class='number'>"+i+"</span>");
+                },
+                error: function(response) {
+                    swal.fire(response.responseText);
+                    console.log(response);
+                },
+            });
+        });
+    });
+
+</script>
 
 @endsection

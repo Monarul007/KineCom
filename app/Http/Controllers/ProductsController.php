@@ -11,9 +11,12 @@ use App\Brands;
 use App\ProductAttributes;
 use App\ProductImages;
 use App\Coupon;
+use Attribute;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use User;
+use Carbon\Carbon;
+use Mockery\Undefined;
 
 class ProductsController extends Controller
 {
@@ -52,46 +55,51 @@ class ProductsController extends Controller
             $product->after_pprice = $data['DiscountPrice'];
             $product->barcode = $barcode;
             $product->product_code = $product_code;
-            $product->product_size = $data['inputSize'];
-            $product->sku = $data['inputSKU'];
             $product->stock = $data['inputStock'];
             $product->is_featured = $data['inputStatus'];
 
             if($request->hasFile('inputImage')){
                 $file = $request->file('inputImage');
                 $basename = basename($file);
-                $img_name = $basename.time().$file->getClientOriginalExtension();
+                $img_name = $basename.time().'.'.$file->getClientOriginalExtension();
                 $file->move('images/products/', $img_name);
                 $product->product_img = $img_name;
             }
             $product->save();
 
-            $DataProduct = Products::where('slug', $slug)->first();
-            $pro_id = $DataProduct['id'];
-            $attribute = new ProductAttributes;
-            $attribute->product_id = $pro_id;
-            $attribute->sku = $data['inputSKU'];
-            $attribute->weight = $data['inputSize'];
-            $attribute->price = $data['DiscountPrice'];
-            $attribute->stock = $data['inputStock'];
-            $attribute->save();
-
-            $dataerr = array();
-            if($request->hasfile('addImage')){
-                foreach($request->file('addImage') as $image){
-                    $basename = basename($image);
-                    $name = $basename.time().'.'.$image->getClientOriginalExtension();
-                    $image->move('images/products/', $name);
-                    $dataerr[] = $name;
+            if($request->hasFile('addImage')){
+                $allowedfileExtension=['pdf','jpg','png','docx'];
+                $files = $request->file('addImage');
+                foreach($files as $file){
+                    $filename = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $check=in_array($extension,$allowedfileExtension);
+                    //dd($check);
+                    if($check){
+                        foreach ($request->addImage as $photo) {
+                            $filename = $photo->store('images/products');
+                            ProductImages::create([
+                                'products_id' => $product->id,
+                                'images' => $filename
+                            ]);
+                        }
+                        echo "Upload Successfully";
+                    }else{
+                        return redirect('/admin/add_product')->with('flash_message_error', 'Sorry! Only Upload png , jpg , doc.');
+                    }
                 }
             }
-            $get_product = Products::where('slug', $slug)->first();
-            $product_id = $get_product['id'];
-            $form= new ProductImages;
-            $form->product_id = $product_id;
-            $form->images=json_encode($dataerr);
-            $form->save();
+            // if($request->hasfile('addImage')){
+            //     foreach($request->file('addImage') as $file){
+            //         $name=$file->getClientOriginalName();
+            //         $file->move('images/products/', $name);
+            //         $data[] = $name;
+            //     }
+            // }
 
+            // $file= new ProductImages;
+            // $file->filename=json_encode($data);
+            // $file->save();
             return redirect('/admin/add_product')->with('flash_message_success', 'Product Created Successfully!');
         }
 
@@ -137,11 +145,8 @@ class ProductsController extends Controller
             }
 
             $data = $req->all();
-            Products::where(['id'=>$id])->update(['cat_id'=>$data['inputCategory'],'brand_id'=>$data['inputBrand'],'product_name'=>$data['inputName'],'product_desc'=>$data['inputDescription'],'product_specs'=>$data['inputSpecs'],'before_price'=>$data['inputPrice'],'after_pprice'=>$data['DiscountPrice'],'barcode'=>$barcode,'product_code'=>$data['inputCode'],'sku'=>$data['inputSKU'],'product_size'=>$data['inputSize'],'stock'=>$data['inputStock'],'is_featured'=>$data['inputStatus']]);
+            Products::where(['id'=>$id])->update(['cat_id'=>$data['inputCategory'],'brand_id'=>$data['inputBrand'],'product_name'=>$data['inputName'],'product_desc'=>$data['inputDescription'],'product_specs'=>$data['inputSpecs'],'main_feature'=>$data['inputFeatures'],'before_price'=>$data['inputPrice'],'after_pprice'=>$data['DiscountPrice'],'barcode'=>$barcode,'product_code'=>$data['inputCode'],'stock'=>$data['inputStock'],'is_featured'=>$data['inputStatus']]);
             
-            $DataProduct = Products::where('id', $id)->first();
-            $getSKU = $DataProduct['sku'];
-            ProductAttributes::where(['sku'=>$getSKU])->update(['sku'=>$data['inputSKU'],'weight'=>$data['inputSize'],'stock'=>$data['inputStock'],'price'=>$data['DiscountPrice']]);
             $product = Products::find($id);
             if($req->hasFile('inputImage')){
                 $prev_img = $product->product_img;
@@ -177,35 +182,11 @@ class ProductsController extends Controller
     }
 
     public function createAttribute(Request $request, $id = null){
-        $product = Products::with('attributes')->where(['id'=>$id])->first();
-        if($request->isMethod('post')){
-            $data = $request->all();
-            foreach($data['sku'] as $key => $val){
-                if(!empty($val)){
-                    $attrCountSKU = ProductAttributes::where('sku',$val)->count();
-                    if($attrCountSKU>0){
-                        return redirect('/admin/create_attribute/'.$id)->with('flash_message_error', 'Attribute With This SKU Alraedy Exist!');
-                    }
-                    $attrCountSizes = ProductAttributes::where(['product_id'=>$id,'weight'=>$data['weight'][$key]])->count();
-                    if($attrCountSizes>0){
-                        return redirect('/admin/create_attribute/'.$id)->with('flash_message_error', ''.$data['weight'][$key].' Weight Already Exists! Please try different weight attribute!');
-                    }
-                    $attribute = new ProductAttributes;
-                    $attribute->product_id = $id;
-                    $attribute->sku = $val;
-                    $attribute->weight = $data['weight'][$key];
-                    $attribute->price = $data['price'][$key];
-                    $attribute->stock = $data['stock'][$key];
-                    $attribute->save();
-                }
-            }
-            return redirect('/admin/create_attribute/'.$id)->with('flash_message_success', 'Attribute Created Successfully!');
-        }
+        $product = Products::where(['id'=>$id])->first();
         return view('admin.create_attribute')->with('product', $product);
     }
 
-    public function deleteAttribute($id)
-    {
+    public function deleteAttribute($id){
         $delete = ProductAttributes::where('id',$id)->delete();
         if ($delete == 1) {
             $success = true;
@@ -226,6 +207,9 @@ class ProductsController extends Controller
         ->join('categories', 'products.cat_id', '=', 'categories.id')
         ->where(['products.id'=>$id])
         ->first();
+        $colors = DB::table('attributes')->where('attribute_id',1)->where('products_id',$id)->get();
+        $size = DB::table('attributes')->where('attribute_id',2)->where('products_id',$id)->get();
+        $weight = DB::table('attributes')->where('attribute_id', '=', 3)->where('products_id',$id)->get();
         $subStrSpecs = substr($singleProduct->product_specs, 24, 300);
         $totalStock = Products::where('id',$id)->sum('stock');
         $related = Products::where('id', '!=', $id)->where(['cat_id' => $singleProduct->cat_id])->get();
@@ -234,7 +218,7 @@ class ProductsController extends Controller
         }else{
             $relatedProducts = Products::where('id', '!=', $id)->inRandomOrder()->get();
         }
-        return view('single-product')->with(compact('singleProduct','subStrSpecs','totalStock','relatedProducts'));
+        return view('single-product')->with(compact('singleProduct','subStrSpecs','totalStock','relatedProducts','colors','size','weight'));
     }
 
     public function productPrice(Request $request){
@@ -247,45 +231,12 @@ class ProductsController extends Controller
     }
 
     public function ajaxCart(Request $request){
-        $id = $request['id'];
-        $productDetails = Products::where('id',$id)->first();
-        $price = $productDetails->after_pprice;
-        if(!$price){
-            $price = $productDetails->before_price;
-        }
-        $image = $productDetails->product_img;
-        if(empty($image)){
-            $image = "no-image.jpg";
-        }
-        if($request->ajax()){
-            $data['inputId'] = $id;
-            $data['inputName'] = $productDetails->product_name;
-            $data['inputImage'] = $image;
-            $data['inputColor'] = NULL;
-            $data['inputPrice'] = $price;
-            $data['inputQTY'] = 1;
-            $data['user_email'] = "";
-        }
-
-        $session_id = Session::get('session_id');
-        if(empty($session_id)){
-            $session_id = Str::random(40);
-            Session::put('session_id',$session_id);
-        }
-
-        $countProducts = DB::table('cart')->select('quantity')->where(['product_id'=>$data['inputId'],'product_name'=>$data['inputName'],'session_id'=>$session_id])->count();
-        if($countProducts>0){
-            return "This Product Already Added to Cart!";
-        }else{
-            DB::table('cart')->insert(['product_id'=>$data['inputId'],'product_name'=>$data['inputName'],'image'=>$data['inputImage'],'price'=>$data['inputPrice'],'quantity'=>$data['inputQTY'],'user_email'=>$data['user_email'],'session_id'=>$session_id,'created_at'=>NOW()]);
-        }
-
-        echo "Product added to cart successfully!!!";
-    }
-
-    public function ajaxAdd2Cart(Request $request){
-        $id = $request['id'];
-        $product = Products::where('id',$id)->first();
+        $id = $request->id;
+        $qty = 1;
+        $color = $request->color;
+        $size = $request->size;
+        $weight = $request->weight;
+        $product = Products::where(['id'=>$id])->first();
         $price = $product->after_pprice;
         $image = $product->product_img;
         if(empty($image)){
@@ -307,30 +258,95 @@ class ProductsController extends Controller
             $session_id = Str::random(40);
             Session::put('session_id',$session_id);
         }
-        $countProducts = DB::table('cart')->select('quantity')->where('product_id',$product->id)->where('session_id',$session_id)->count();
+        $countProducts = DB::table('cart')->where(['product_id'=>$id,'product_color'=>$color,'size'=>$size,'weight'=>$weight,'session_id'=>$session_id])->count();
         // if cart is empty then this the first product
         if($countProducts>0) {
-            return "This Product Already Added to Cart!";
+            return 'This product already added to cart! Try adding another size , color or weight!';
         }else{
-            DB::table('cart')->insert(['product_id'=>$product->id,'product_name'=>$product->product_name,'image'=>$image,'product_code'=>$product->product_code,'product_color'=>$product->product_color,'price'=>$price,'weight'=>$product->product_size,'quantity'=>1,'user_email'=>$email,'session_id'=>$session_id,'created_at'=>NOW()]);
+            DB::table('cart')->insert(['product_id'=>$product->id,'product_name'=>$product->product_name,'image'=>$image,'product_code'=>$product->product_code,'product_color'=>$color,'size'=>$size,'price'=>$price,'weight'=>$weight,'quantity'=>$qty,'user_email'=>$email,'session_id'=>$session_id,'created_at'=>NOW()]);
         }
 
         $userCart = DB::table('cart')->where('session_id', $session_id)->get()->toArray();
-        // $userCartArray = array();
-        // foreach($userCart as $cart){
-        //     $userCartDiv = '<li>
-        //     <a href="/products/'.$cart->product_id.'" class="image">
-        //         <img src="/images/'.$cart->image.'" alt="Product">
-        //     </a>
-        //     <div class="content">
-        //         <a href="/products/'.$cart->product_id.'" class="title">'.$cart->product_name.'</a>
-        //         <span class="price">Price: BDT:'.$cart->price.'</span>
-        //         <span class="qty">Qty: '.$cart->quantity.'</span>
-        //     </div>
-        //     <a href="/cart/delete-product/'.$cart->id.'" class="remove"><i class="fa fa-trash-o"></i></a>
-        // </li>';
-        // $userCartArray[] = $userCartDiv;
+        $userCartArray = array();
+        foreach($userCart as $cart){
+            $userCartDiv = '<li>
+            <a href="/products/'.$cart->product_id.'" class="image">
+                <img src="/images/'.$cart->image.'" alt="Product">
+            </a>
+            <div class="content">
+                <a href="/products/'.$cart->product_id.'" class="title">'.$cart->product_name.'</a>
+                <span class="price">Price: BDT:'.$cart->price.'</span>
+                <span class="qty">Qty: '.$cart->quantity.'</span>
+            </div>
+            <a href="/cart/delete-product/'.$cart->id.'" class="remove"><i class="fa fa-trash-o"></i></a>
+        </li>';
+        $userCartArray[] = $userCartDiv;
+        }
+
+        echo json_encode($userCart);
+    }
+
+    public function ajaxAdd2Cart(Request $request){
+        $id = $request->id;
+        $qty = $request->qty;
+        if($qty == ""){
+            $qty = 1;
+        }
+        $color = $request->color;
+        $size = $request->size;
+        $weight = $request->weight;
+        $product = Products::where(['id'=>$id])->first();
+        $price = $product->after_pprice;
+        $image = $product->product_img;
+        if(empty($image)){
+            $image = "no-image.jpg";
+        }
+        if($price == ''){
+            $price = $product->before_price;
+        }
+        if(!$product) {
+            abort(404);
+        }
+        $code = $product->product_code;
+        if(empty($code)){
+            $code = '';
+        }
+        $email = '';
+        $session_id = Session::get('session_id');
+        if(empty($session_id)){
+            $session_id = Str::random(40);
+            Session::put('session_id',$session_id);
+        }
+        $countProducts = DB::table('cart')->where(['product_id'=>$id,'product_color'=>$color,'size'=>$size,'weight'=>$weight,'session_id'=>$session_id])->count();
+        // dd($countProducts);
+        // if cart is empty then this the first product
+        if($countProducts>0) {
+            return 'This product already added to cart! Try adding another size , color or weight!';
+        }else{
+            DB::table('cart')->insert(['product_id'=>$product->id,'product_name'=>$product->product_name,'image'=>$image,'product_code'=>$product->product_code,'product_color'=>$color,'size'=>$size,'price'=>$price,'weight'=>$weight,'quantity'=>$qty,'user_email'=>$email,'session_id'=>$session_id,'created_at'=>NOW()]);
+        }
+
+        // $stale_cart = DB::table('cart')->where('updated_at', '<', Carbon::now()->subDays(1))->get();
+        // foreach ($stale_cart as $post) {
+        //     $post->delete();
         // }
+
+        $userCart = DB::table('cart')->where('session_id', $session_id)->get()->toArray();
+        $userCartArray = array();
+        foreach($userCart as $cart){
+            $userCartDiv = '<li>
+            <a href="/products/'.$cart->product_id.'" class="image">
+                <img src="/images/'.$cart->image.'" alt="Product">
+            </a>
+            <div class="content">
+                <a href="/products/'.$cart->product_id.'" class="title">'.$cart->product_name.'</a>
+                <span class="price">Price: BDT:'.$cart->price.'</span>
+                <span class="qty">Qty: '.$cart->quantity.'</span>
+            </div>
+            <a href="/cart/delete-product/'.$cart->id.'" class="remove"><i class="fa fa-trash-o"></i></a>
+        </li>';
+        $userCartArray[] = $userCartDiv;
+        }
 
         echo json_encode($userCart);
     }

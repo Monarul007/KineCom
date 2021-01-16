@@ -176,6 +176,7 @@
 
             <div class="button">
                 <a href="/checkout">CHECK OUT</a>
+                <a href="/cart">GO TO CART</a>
             </div>
             
         </div>
@@ -203,7 +204,7 @@ $(document).ready(function(){
             }
         });
         $.ajax({
-            url: "/ajax2Cart",
+            url: "/ajaxCart",
             method: 'post',
             data: formData,
             contentType: false,

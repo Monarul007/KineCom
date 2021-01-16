@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Products extends Model
 {
-    public function attributes(){
-        return $this->hasMany('App\ProductAttributes','product_id');
+    public function attributes()
+    {
+        return $this->hasMany(Attribute::class);
     }
     public function images(){
-        return $this->hasMany('App\ProductImages','product_id');
+        return $this->hasMany(ProductImages::class);
     }
     public function cat(){
         return $this->hasOne(Category::class,'id');

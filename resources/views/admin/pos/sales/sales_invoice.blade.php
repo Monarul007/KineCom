@@ -1594,7 +1594,6 @@
             fieldValues.remarks = $('#remarks').val();
             fieldValues.date = $('#date').val();
             
-            
             fieldValues.clients_bank = $('#clients_bank').val();
             fieldValues.clients_bank_acc = $('#clients_bank_acc').val();
             fieldValues.check_amount = $('#check_amount').val();
