@@ -58,7 +58,7 @@ class CheckoutController extends Controller
         date_default_timezone_set('Europe/London');
         $date = date("Y-m-d");
         $time = date("H:i:s");
-        $order_id = "TP-".date("his");
+        $order_id = "HOB-".date("his");
         
         $session_id = Session::get('session_id');
         $take_cart_items = DB::table('cart')->where(['session_id'=>$session_id])->get();

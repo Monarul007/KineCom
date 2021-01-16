@@ -53,7 +53,7 @@ $status = '';
                 <div class="card-body p-0">
                     <div class="row p-3 mt-20 mb-20">
                         <div class="col-md-4 col-6 m-auto">
-                            <img src="/images/logo.png" width="100" class="mb-3">
+                            <img src="/images/theme/{{$GenSettings->logo_big}}" width="100" class="mb-3">
                         </div>
                         <br>
                         <div class="col-md-3 mt-20 col-7 m-auto">
@@ -119,7 +119,13 @@ $status = '';
                                             <img src="/images/products/{{$ordD->image}}" alt="" width="50px" height="50px" style="border-radius: 100%;">
                                             @endif
                                         </td>
-                                        <td>{{$ordD->pname}} <br> <span>{{$ordD->filter}}: {{$ordD->filter_value}}</span></td>
+                                        <td>{{$ordD->pname}} <br> 
+                                        <div class="d-flex">
+                                            <span class="mr-2">@if($ordD->weight) Weight: {{$ordD->weight}} @endif</span>
+                                            <span class="mr-2">@if($ordD->color) Color: {{$ordD->color}} @endif</span>
+                                            <span>@if($ordD->size) Color: {{$ordD->size}} @endif</span>
+                                        </div>
+                                        </td>
                                         <td>{{$ordD->qnt}}</td>
                                         <td>{{$ordD->price}}</td>
                                         <td><?= $price ?></td>
@@ -153,7 +159,7 @@ $status = '';
         </div>
     </div>
     
-    <div class="mt-5 mb-5 text-center text-info small">by : <a class="" target="_blank" href="/">KineCom.</a></div>
+    <div class="mt-5 mb-5 text-center text-info small">by : <a class="" target="_blank" href="/">{{$GenSettings->site_name}}</a></div>
 
 </div>
 
