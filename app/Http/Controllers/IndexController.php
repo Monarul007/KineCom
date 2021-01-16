@@ -148,7 +148,7 @@ class IndexController extends Controller
                 foreach($featuredProducts as $fp){
                     $productsArrayDiv .= '<div class="col-6 text-center col-md-2 p-0">';
                     $productsArrayDiv .= '<div class="ee-product">';
-                    if($p->product_img == NULL){
+                    if($fp->product_img == NULL){
                         $productsArrayDiv .= '<div class="image">
                         <a href="/products/'.$fp->id.'" class="img"><img src="/images/no-image.jpg" alt="Product Image"></a>
                         <div class="wishlist-compare">

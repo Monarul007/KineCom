@@ -58,7 +58,7 @@ class CheckoutController extends Controller
         date_default_timezone_set('Europe/London');
         $date = date("Y-m-d");
         $time = date("H:i:s");
-        $order_id = "RRWV-".date("his");
+        $order_id = "HOB-".date("his");
         
         $session_id = Session::get('session_id');
         $take_cart_items = DB::table('cart')->where(['session_id'=>$session_id])->get();
@@ -129,7 +129,6 @@ class CheckoutController extends Controller
                     catch(Exception $e)
                     {
                         echo $e->getMessage();
-                        
                         exit;
                     }
                     
@@ -177,7 +176,6 @@ class CheckoutController extends Controller
                         $weight = $take_cart_items[$key]->weight;
                         $price = $take_cart_items[$key]->price;
                         if(!empty($val)){
-                            
                             $OrderDetail = new Order_detail;
                             // $getId = $order = DB::table('orders')->where('order_number',$order_id)->get();
     
