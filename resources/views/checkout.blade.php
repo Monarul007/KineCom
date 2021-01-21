@@ -45,6 +45,10 @@
                                         <input class="custom-control-input" type="radio" id="ShipMethod2" name="smethod" value="Outside City">
                                         <label for="ShipMethod2" class="custom-control-label">Transport Delivery (Country Wide)</label>
                                     </div>
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" type="radio" id="ShipMethod3" name="smethod" value="Free">
+                                        <label for="ShipMethod3" class="custom-control-label">Free Delivery (Dhaka Metro Area)</label>
+                                    </div>
                                 </div>
                                 <span class="">Payment Method</span>
                                 <div class="form-group m-2">

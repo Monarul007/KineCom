@@ -50,8 +50,9 @@ class CheckoutController extends Controller
         $pmethod = $request['pmethod'];
         if($smethod == 'Inside City'){
             $s_charge = 50.00;
-        }
-        else{
+        }elseif($smethod == 'Free'){
+            $s_charge = 0.00;
+        }else{
             $s_charge = 100.00;
         }
         

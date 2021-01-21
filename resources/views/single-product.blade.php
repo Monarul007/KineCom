@@ -45,26 +45,24 @@
                         <input type="hidden" name="inputImage" id="inputImage" value="{{ $singleProduct->product_img }}">
                         <div class="col-lg-4 col-12 mb-50">
                             <!-- Image -->
-                            <div class="single-product-image thumb-left">
-                                <div class="tab-content">
-                                    <div id="single-image-1" class="tab-pane fade show active big-image-slider">
-                                        @if($singleProduct->product_img != NULL)
-                                        <div class="big-image"><img src="/images/products/{{$singleProduct->product_img}}" alt="Big Image"><a href="/images/products/{{$singleProduct->product_img}}" class="big-image-popup"><i class="fa fa-search-plus"></i></a></div>
-                                        @else
-                                        <div class="big-image"><img src="/images/single-product/big-5.png" alt="Big Image"><a href="/images/single-product/big-5.png" class="big-image-popup"><i class="fa fa-search-plus"></i></a></div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="thumb-image-slider nav" data-vertical="true">
-                                    <a class="thumb-image active" data-toggle="tab" href="#single-image-1">
-                                    @if($singleProduct->product_img != NULL)
-                                        <img src="/images/products/{{$singleProduct->product_img}}" alt="Thumbnail Image">
-                                    @else
-                                        <img src="/images/single-product/thumb-1.png" alt="Thumbnail Image">
-                                    @endif
-                                    </a>
-                                </div>
-                            </div>
+                            
+                            <div class="simpleLens-gallery-container" id="demo-1">
+								<div class="simpleLens-container">
+									<div class="simpleLens-big-image-container">
+										<a class="simpleLens-lens-image" data-lens-image="/images/products/{{$singleProduct->product_img}}">
+											<img src="/images/products/{{$singleProduct->product_img}}" class="simpleLens-big-image">
+										</a>
+									</div>
+								</div>
+								<br>
+								<div class="simpleLens-thumbnails-container">
+									<a href="#" class="simpleLens-thumbnail-wrapper"
+									data-lens-image="/images/products/{{$singleProduct->product_img}}"
+									data-big-image="/images/products/{{$singleProduct->product_img}}">
+										<img src="/images/products/{{$singleProduct->product_img}}" width="100">
+									</a>
+								</div>
+							</div>
                         </div>
                                 
                         <div class="col-lg-8 col-12 mb-50">
@@ -164,153 +162,24 @@
                     <ul class="single-product-tab-list nav">
                         <li><a href="#product-description" class="active" data-toggle="tab" >description</a></li>
                         <li><a href="#product-specifications" data-toggle="tab" >specifications</a></li>
-                        <li><a href="#product-reviews" data-toggle="tab" >reviews</a></li>
+                        <li><a href="#product-reviews" data-toggle="tab" >Main Feature</a></li>
                     </ul>
-                    
                     <div class="single-product-tab-content tab-content">
                         <div class="tab-pane fade show active" id="product-description">
-                            
                             <div class="row">
                                 <div class="single-product-description-content col-lg-12 col-12">
-                                {{ strip_tags($singleProduct->product_desc) }}
+                                {!! $singleProduct->product_desc !!}
                                 </div>
                             </div>
-                            
                         </div>
                         <div class="tab-pane fade" id="product-specifications">
                             <div class="single-product-specification">
-                                {{ strip_tags($singleProduct->product_specs) }}
+                                {!! $singleProduct->product_specs !!}
                             </div>
                         </div>
                         <div class="tab-pane fade" id="product-reviews">
-                        
                             <div class="product-ratting-wrap">
-                                <div class="pro-avg-ratting">
-                                    <h4>4.5 <span>(Overall)</span></h4>
-                                    <span>Based on 9 Comments</span>
-                                </div>
-                                <div class="ratting-list">
-                                    <div class="sin-list float-left">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <span>(5)</span>
-                                    </div>
-                                    <div class="sin-list float-left">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <span>(3)</span>
-                                    </div>
-                                    <div class="sin-list float-left">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <span>(1)</span>
-                                    </div>
-                                    <div class="sin-list float-left">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <span>(0)</span>
-                                    </div>
-                                    <div class="sin-list float-left">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <span>(0)</span>
-                                    </div>
-                                </div>
-                                <div class="rattings-wrapper">
-                                
-                                    <div class="sin-rattings">
-                                        <div class="ratting-author">
-                                            <h3>Cristopher Lee</h3>
-                                            <div class="ratting-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <span>(5)</span>
-                                            </div>
-                                        </div>
-                                        <p>enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia res eos qui ratione voluptatem sequi Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci veli</p>
-                                    </div>
-                                    
-                                    <div class="sin-rattings">
-                                        <div class="ratting-author">
-                                            <h3>Nirob Khan</h3>
-                                            <div class="ratting-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <span>(5)</span>
-                                            </div>
-                                        </div>
-                                        <p>enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia res eos qui ratione voluptatem sequi Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci veli</p>
-                                    </div>
-                                    
-                                    <div class="sin-rattings">
-                                        <div class="ratting-author">
-                                            <h3>MD.ZENAUL ISLAM</h3>
-                                            <div class="ratting-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <span>(5)</span>
-                                            </div>
-                                        </div>
-                                        <p>enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia res eos qui ratione voluptatem sequi Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci veli</p>
-                                    </div>
-                                    
-                                </div>
-                                <div class="ratting-form-wrapper fix">
-                                    <h3>Add your Comments</h3>
-                                    <form action="#">
-                                        <div class="ratting-form row">
-                                            <div class="col-12 mb-15">
-                                                <h5>Rating:</h5>
-                                                <div class="ratting-star fix">
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12 mb-15">
-                                                <label for="name">Name:</label>
-                                                <input id="name" placeholder="Name" type="text">
-                                            </div>
-                                            <div class="col-md-6 col-12 mb-15">
-                                                <label for="email">Email:</label>
-                                                <input id="email" placeholder="Email" type="text">
-                                            </div>
-                                            <div class="col-12 mb-15">
-                                                <label for="your-review">Your Review:</label>
-                                                <textarea name="review" id="your-review" placeholder="Write a review"></textarea>
-                                            </div>
-                                            <div class="col-12">
-                                                <input value="add review" type="submit">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                                {!! $singleProduct->main_feature !!}
                             </div>
                         </div>
                     </div>
@@ -388,9 +257,18 @@
             </div>
         </div>
     </div><!-- Related Product Section End -->
+    <style>
+    .simpleLens-thumbnails-container a{border: 1px solid;}
+    </style>
 
 <script>
     $(document).ready(function(){
+        $('#demo-1 .simpleLens-thumbnails-container img').simpleGallery({
+            loading_image: '/images/theme/loading.gif'
+        });
+        $('#demo-1 .simpleLens-big-image').simpleLens({
+            loading_image: '/images/theme/loading.gif'
+        });
         $("body").on("click", "a.add-cart", function () {
             var id = $(this).data('id');
             var qty = $("#qty").val();

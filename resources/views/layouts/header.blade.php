@@ -29,6 +29,8 @@
         <!-- Main Style CSS -->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/jquery.simpleGallery.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/jquery.simpleLens.css') }}" />
         <!-- jQuery JS -->
         <script src="{{ asset('js/vendor/jquery-1.12.4.min.js') }}"></script>
         <!-- Modernizer JS -->

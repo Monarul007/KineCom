@@ -316,5 +316,7 @@ class PagesController extends Controller
         }
         return view ( 'search-results' )->with('flash_message_success', 'No product found. Try searching again!');
     }
+
+    
     
 }

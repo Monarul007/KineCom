@@ -7000,12 +7000,12 @@ img.mfp-img {
         color: #ff0000; }
     .ee-product .image .img {
       display: block;
-      background-color: #f6f7f8; }
+      background-color: #fff; }
       .ee-product .image .img img {
         display: block;
-        min-height: 225px;
-        max-height: 225px;
-        width: 100%; }
+        margin: auto;
+        width: 150px;
+        height: 150px; }
     .ee-product .image .wishlist-compare {
       position: absolute;
       top: 20px;

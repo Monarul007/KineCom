@@ -203,7 +203,7 @@ class ProductsController extends Controller
 
     public function singleProduct($id = null){
         $singleProduct = Products::with('attributes','images')
-        ->select('products.id',DB::raw('substr(product_name, 1, 45) as product_name'),'products.product_img','products.before_price','products.after_pprice','categories.name as catname', 'categories.url as url')
+        ->select('products.id',DB::raw('substr(product_name, 1, 45) as product_name'),'products.product_img','products.product_desc','products.product_specs','products.main_feature','products.before_price','products.after_pprice','categories.name as catname', 'categories.url as url')
         ->join('categories', 'products.cat_id', '=', 'categories.id')
         ->where(['products.id'=>$id])
         ->first();

@@ -170,5 +170,7 @@
     <script src="{{ asset('js/ajax-mail.js') }}"></script>
     <!-- Main JS -->
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/jquery.simpleGallery.min.js') }}"></script>
+	<script src="{{ asset('js/jquery.simpleLens.min.js') }}"></script>
     </body>
 </html>
