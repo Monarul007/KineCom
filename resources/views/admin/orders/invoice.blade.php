@@ -24,7 +24,7 @@ $status = '';
             $discount = $ord->discount;
         }
         if($ord->order_note == null){
-            $ord_note = "No order note or special instruction giveb by the customer.";
+            $ord_note = "No Order Note or Special Instruction Given by The Customer.";
         }else{
             $ord_note = $ord->order_note;
         }
@@ -77,7 +77,7 @@ $status = '';
                 <input id="imageloc" type="text" size="50" value="" /><br />
                 (max width: 540px, max height: 100px)
               </div>
-              <img id="image" src="/images/theme/{{$GenSettings->logo_small}}" alt="logo" />
+              <img id="image" src="/images/theme/{{$GenSettings->logo_small}}" alt="logo" width="165" />
             </div>
 		</div>
 		
@@ -164,9 +164,9 @@ $status = '';
                 <td class="item-name"><div class="delete-wpr"><span><?= $i++ ?></span></div></td>
                 <td>
                     @if(!$ordD->image)
-                    <img src="/images/no-image.jpg" alt="" width="70px" height="70px" style="border-radius: 100%;">
+                    <img src="/images/no-image.jpg" alt="" width="70" height="70" style="border-radius: 100%;">
                     @else
-                    <img src="/images/products/{{$ordD->image}}" alt="" width="70px" height="70px" style="border-radius: 100%;">
+                    <img src="/images/products/{{$ordD->image}}" alt="" width="70" height="70" style="border-radius: 100%;">
                     @endif
                 </td>
                 <td class="description">
@@ -219,7 +219,7 @@ $status = '';
     <br>
 <style>
 * { margin: 0; padding: 0; }
-.table-responsive{overflow-x: visible;}
+/*.table-responsive{overflow-x: visible;}*/
 body { font: 15px/1.4 "Cairo", sans-serif;}
 #page-wrap { width: 990px; margin: 30px auto; }
 textarea { border: 0; font: 15px "Cairo", sans-serif; overflow: hidden; resize: none; }
@@ -265,6 +265,10 @@ table td, table th { border: 1px solid rgb(0 0 0 / 12%); padding: 5px; }
 textarea:hover, textarea:focus, #items td.total-value textarea:hover, #items td.total-value textarea:focus, .delete:hover { background-color:#e4e6d8; }
 @media print{
     #button-div {display: none;}
+    body, html {
+        max-height: 100%;
+        overflow: hidden;
+    }
 }
 </style>
 </body>

@@ -67,7 +67,7 @@
                                         @if($cat->image != NULL)
                                         <img src="/images/categories/{{$cat->image}}" alt="">
                                         @else
-                                        <img src="/images/no-image.jpg" alt="">
+                                        <img src="/images/988842.png" alt="">
                                         @endif
                                     </div>
                                     <div class="cat-title">
@@ -108,71 +108,76 @@
     <!-- Mobile Categories -->
 
     <!-- Feature Product Section Start -->
-    <div class="product-section section mt-50 mb-40">
-        <div class="container">
-            <div class="row">
-                <!-- Section Title Start -->
-                <div class="col-12 mb-20">
-                    <div class="section-title-one" data-title="FEATURED ITEMS"><h1>BEST SALE PRODUCT</h1></div>
-                </div><!-- Section Title End -->
-                <!-- Product Tab Filter Start -->
-                <div class="col-12">
-                    <!-- Product Slider Wrap Start -->
-                    <div class="product-slider-wrap product-slider-arrow-two">
-                        <!-- Product Slider Start -->
-                        <div class="product-slider product-slider-4-full">
-                            @foreach($bestSelling as $best)
-                            <div class="col pb-20 pt-10">
-                                <!-- Product Start -->
-                                <div class="ee-product">
-                                    <!-- Image -->
-                                    <div class="image">
-                                        @if($best->product_img == NULL)
-                                        <a href="products/{{$best->id}}" class="img"><img src="/images/no-image.jpg" alt="Product Image"></a>
-                                        @else
-                                        <a href="products/{{$best->id}}" class="img"><img src="/images/products/{{$best->product_img}}" alt="Product Image"></a>
-                                        @endif
-                                        <div class="wishlist-compare">
-                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
-                                        </div>
-                                        <a id="ajaxIID" href="/products/{{$best->id}}" data-id="{{$best->id}}" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
-                                    </div>
+    <!--<div class="product-section section mt-50 mb-40">-->
+    <!--    <div class="container">-->
+    <!--        <div class="row">-->
+    <!--             Section Title Start -->
+    <!--            <div class="col-12 mb-20">-->
+    <!--                <div class="section-title-one" data-title="FEATURED ITEMS"><h1>BEST SALE PRODUCT</h1></div>-->
+    <!--            </div>-->
+    <!--             Section Title End -->
+    <!--             Product Tab Filter Start -->
+    <!--            <div class="col-12">-->
+    <!--                 Product Slider Wrap Start -->
+    <!--                <div class="product-slider-wrap product-slider-arrow-two">-->
+    <!--                     Product Slider Start -->
+    <!--                    <div class="product-slider product-slider-4-full">-->
+    <!--                        @foreach($bestSelling as $best)-->
+    <!--                        <div class="col pb-20 pt-10">-->
+    <!--                             Product Start -->
+    <!--                            <div class="ee-product">-->
+    <!--                                 Image -->
+    <!--                                <div class="image">-->
+    <!--                                    @if($best->product_img == NULL)-->
+    <!--                                    <a href="products/{{$best->id}}" class="img"><img src="/images/no-image.jpg" alt="Product Image"></a>-->
+    <!--                                    @else-->
+    <!--                                    <a href="products/{{$best->id}}" class="img"><img src="/images/products/{{$best->product_img}}" alt="Product Image"></a>-->
+    <!--                                    @endif-->
+    <!--                                    <div class="wishlist-compare">-->
+    <!--                                        <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>-->
+    <!--                                    </div>-->
+    <!--                                    <a id="ajaxIID" href="/products/{{$best->id}}" data-id="{{$best->id}}" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>-->
+    <!--                                </div>-->
 
-                                    <!-- Content -->
-                                    <div class="content">
-                                        <!-- Category & Title -->
-                                        <div class="category-title">
-                                            <a href="/category/{{$best->url}}" class="cat">{{$best->catname}}</a>
-                                            <h5 class="title"><a href="/products/{{$best->id}}">{{$best->product_name}}</a></h5>
-                                        </div>
-                                        <!-- Price & Ratting -->
-                                        <div class="price-ratting">
-                                            <h5 class="price">
-                                                @if($best->after_pprice)
-                                                BDT {{$best->after_pprice}}
-                                                @else
-                                                BDT {{$best->before_price}}
-                                                @endif
-                                            </h5>
-                                            <div class="ratting">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><!-- Product End -->
-                            </div>
-                            @endforeach
-                        </div><!-- Product Slider End -->
-                    </div>
-                    <!-- Product Slider Wrap End -->
-                </div><!-- Product Tab Filter End -->
-            </div>
-        </div>
-    </div><!-- Feature Product Section End -->
+    <!--                                 Content -->
+    <!--                                <div class="content">-->
+    <!--                                     Category & Title -->
+    <!--                                    <div class="category-title">-->
+    <!--                                        <a href="/category/{{$best->url}}" class="cat">{{$best->catname}}</a>-->
+    <!--                                        <h5 class="title"><a href="/products/{{$best->id}}">{{$best->product_name}}</a></h5>-->
+    <!--                                    </div>-->
+    <!--                                     Price & Ratting -->
+    <!--                                    <div class="price-ratting">-->
+    <!--                                        <h5 class="price">-->
+    <!--                                            @if($best->after_pprice)-->
+    <!--                                            BDT {{$best->after_pprice}}-->
+    <!--                                            @else-->
+    <!--                                            BDT {{$best->before_price}}-->
+    <!--                                            @endif-->
+    <!--                                        </h5>-->
+    <!--                                        <div class="ratting">-->
+    <!--                                            <i class="fa fa-star"></i>-->
+    <!--                                            <i class="fa fa-star"></i>-->
+    <!--                                            <i class="fa fa-star"></i>-->
+    <!--                                            <i class="fa fa-star-half-o"></i>-->
+    <!--                                            <i class="fa fa-star-o"></i>-->
+    <!--                                        </div>-->
+    <!--                                    </div>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                             Product End -->
+    <!--                        </div>-->
+    <!--                        @endforeach-->
+    <!--                    </div>-->
+    <!--                     Product Slider End -->
+    <!--                </div>-->
+    <!--                 Product Slider Wrap End -->
+    <!--            </div>-->
+    <!--             Product Tab Filter End -->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!-- Feature Product Section End -->
 
     <!-- Most Popular Product Section Start -->
     <!-- <div class="product-section section mb-40">

@@ -71,7 +71,7 @@
                                 <!-- Category & Title -->
                                 <div class="head-content">
                                     <div class="category-title">
-                                        <a href="/category/{{$singleProduct->url}}" class="cat">{{$singleProduct->catname}}</a>
+                                        <a href="/category/{{$singleProduct->url}}" class="cat">{{ $singleProduct->catname}}</a>
                                         <h5 class="title">{{$singleProduct->product_name}}</h5>
                                     </div>
                                     <br>
@@ -92,7 +92,7 @@
                                     </div>
 
                                     <div class="desc">
-                                        <p>{{$subStrSpecs}}</p>
+                                        <p>{!! $singleProduct->main_feature !!}</p>
                                     </div>
                                     
                                     <span class="availability">Availability: @if($totalStock>0)<span>In Stock</span> @else <span class="text-danger">Out of stock</span> @endif</span>
@@ -224,7 +224,6 @@
                                     <div class="content">
                                         <!-- Category & Title -->
                                         <div class="category-title">
-                                            <a href="#" class="cat">{{$product->category->name}}</a>
                                             <h5 class="title"><a href="/products/{{$product->id}}">{{$product->product_name}}</a></h5>
                                         </div>
                                         <!-- Price & Ratting -->

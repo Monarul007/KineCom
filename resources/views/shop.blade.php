@@ -170,86 +170,59 @@
                     <div class="shop-sidebar mb-35">
                         <h4 class="title">CATEGORIES</h4>
                         <ul class="sidebar-category">
-                            <li><a href="#">Tv & Audio System</a></li>
-                            <li><a href="#">Computer & Laptop</a>
+                            @foreach($categories as $cat)
+                            <li><a href="#">{{$cat->name}}</a>
                                 <ul class="children">
-                                    <li><a href="#">Smartphone</a></li>
-                                    <li><a href="#">headphone</a></li>
-                                    <li><a href="#">accessories</a></li>
+                                    @foreach($cat->categories as $subcat)
+                                        <li><a href="/category/{{$subcat->url}}">{{$subcat->name}}</a></li>
+                                    @endforeach
                                 </ul>
                             </li>
-                            <li><a href="#">Phones & Tablets</a>
-                                <ul class="children">
-                                    <li><a href="#">Samsome</a></li>
-                                    <li><a href="#">GL Stylus</a></li>
-                                    <li><a href="#">Uawei</a></li>
-                                    <li><a href="#">Cherry Berry</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Home Appliances</a></li>
-                            <li><a href="#">Kitchen appliances</a>
-                                <ul class="children">
-                                    <li><a href="#">Power Bank</a></li>
-                                    <li><a href="#">Data Cable</a></li>
-                                    <li><a href="#">Power Cable</a></li>
-                                    <li><a href="#">Battery</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Printer & Scanner</a>
-                                <ul class="children">
-                                    <li><a href="#">Desktop Headphone</a></li>
-                                    <li><a href="#">Mobile Headphone</a></li>
-                                    <li><a href="#">Wireless Headphone</a></li>
-                                    <li><a href="#">LED Headphone</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Camera & CC Camera</a></li>
-                            <li><a href="#">Smart Watch</a></li>
-                            <li><a href="#">Accessories</a></li>
+                            @endforeach
                         </ul>
                     </div>
                     
-                    <div class="shop-sidebar mb-35">
-                        <h4 class="title">Brand</h4>
-                        <ul class="sidebar-brand">
-                            <li><a href="#">Apple</a></li>
-                            <li><a href="#">Sumsang</a></li>
-                            <li><a href="#">Phillips</a></li>
-                            <li><a href="#">Zeon</a></li>
-                            <li><a href="#">Panasonic</a></li>
-                            <li><a href="#">Uawei</a></li>
-                        </ul>
-                    </div>
+                    <!--<div class="shop-sidebar mb-35">-->
+                    <!--    <h4 class="title">Brand</h4>-->
+                    <!--    <ul class="sidebar-brand">-->
+                    <!--        <li><a href="#">Apple</a></li>-->
+                    <!--        <li><a href="#">Sumsang</a></li>-->
+                    <!--        <li><a href="#">Phillips</a></li>-->
+                    <!--        <li><a href="#">Zeon</a></li>-->
+                    <!--        <li><a href="#">Panasonic</a></li>-->
+                    <!--        <li><a href="#">Uawei</a></li>-->
+                    <!--    </ul>-->
+                    <!--</div>-->
                     
-                    <div class="shop-sidebar mb-35">
-                        <h4 class="title">Price</h4>
-                        <div class="sidebar-price">
-                            <div id="price-range"></div>
-                            <input type="text" id="price-amount" readonly>
-                        </div>
-                    </div>
+                    <!--<div class="shop-sidebar mb-35">-->
+                    <!--    <h4 class="title">Price</h4>-->
+                    <!--    <div class="sidebar-price">-->
+                    <!--        <div id="price-range"></div>-->
+                    <!--        <input type="text" id="price-amount" readonly>-->
+                    <!--    </div>-->
+                    <!--</div>-->
                     
-                    <div class="shop-sidebar mb-35">
-                        <h4 class="title">Color</h4>
-                        <ul class="sidebar-brand">
-                            <li><a href="#">White</a></li>
-                            <li><a href="#">Black</a></li>
-                            <li><a href="#">Cosmic Black</a></li>
-                            <li><a href="#">Rose Gold</a></li>
-                            <li><a href="#">Spacegrey</a></li>
-                        </ul>
-                    </div>
-                    <div class="shop-sidebar mb-35">
-                        <h4 class="title">Tags</h4>
-                        <div class="sidebar-tags">
-                            <a href="#">smartphone</a>
-                            <a href="#">Iron</a>
-                            <a href="#">Trimer</a>
-                            <a href="#">Smart Watch</a>
-                            <a href="#">Play Station</a>
-                            <a href="#">Oven</a>
-                        </div>
-                    </div>
+                    <!--<div class="shop-sidebar mb-35">-->
+                    <!--    <h4 class="title">Color</h4>-->
+                    <!--    <ul class="sidebar-brand">-->
+                    <!--        <li><a href="#">White</a></li>-->
+                    <!--        <li><a href="#">Black</a></li>-->
+                    <!--        <li><a href="#">Cosmic Black</a></li>-->
+                    <!--        <li><a href="#">Rose Gold</a></li>-->
+                    <!--        <li><a href="#">Spacegrey</a></li>-->
+                    <!--    </ul>-->
+                    <!--</div>-->
+                    <!--<div class="shop-sidebar mb-35">-->
+                    <!--    <h4 class="title">Tags</h4>-->
+                    <!--    <div class="sidebar-tags">-->
+                    <!--        <a href="#">smartphone</a>-->
+                    <!--        <a href="#">Iron</a>-->
+                    <!--        <a href="#">Trimer</a>-->
+                    <!--        <a href="#">Smart Watch</a>-->
+                    <!--        <a href="#">Play Station</a>-->
+                    <!--        <a href="#">Oven</a>-->
+                    <!--    </div>-->
+                    <!--</div>-->
                 </div>
             </div>
         </div>
